@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Бронирование</h1>
+            {% for p in products %}
+                <h2>{{ p }}</h2>
+
+{% thumbnail p.img "300" as im %}
+
+    <img src="{{ im.url }}">
+{% endthumbnail %}
+            {% endfor %}
+
+        </div>
+        <div class="col-md-4">
+            <h2>Ваш заказ</h2>
+        </div>
+    </div>
+{% endblock %}
+
