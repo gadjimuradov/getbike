@@ -1,356 +1,325 @@
-var popup=true;
-var timeoutID=null;
-$(".phone").mask("+7 (999) 999-99-99");
-var agent = false;
+jQuery(function ($) {
 
-function nonPhone() {
-    window.location.href = "booking.php?stepid=1";
-}
+    'use strict';
+		
+	/*==============================================================*/
+    // Search
+    /*==============================================================*/
 
-function deleteCookie(name) {
-    setCookie(name, "", {
-        expires: -1
-    })
-}
+    (function () {
 
-function setCookie(name, value, options) {
-    options = options || {};
+        $('.fa-search').on('click', function() {
+            $('.search').fadeIn(500, function() {
+              $(this).toggleClass('search-toggle');
+            });     
+        });
 
-    var expires = options.expires;
+        $('.search-close').on('click', function() {
+            $('.search').fadeOut(500, function() {
+                $(this).removeClass('search-toggle');
+            }); 
+        });
 
-    if (typeof expires == "number" && expires) {
-        var d = new Date();
-        d.setTime(d.getTime() + expires * 1000);
-        expires = options.expires = d;
-    }
-    if (expires && expires.toUTCString) {
-        options.expires = expires.toUTCString();
-    }
+    }());
+	
+	
+	
+	/*==============================================================*/
+    // Menu add class
+    /*==============================================================*/
+	(function () {	
+		function menuToggle(){
+			var windowWidth = $(window).width();
+			if(windowWidth > 767 ){
+				$(window).on('scroll', function(){
+					if( $(window).scrollTop()>60 ){
+						$('.navbar').addClass('navbar-fixed-top');
+					} else {
+						$('.navbar').removeClass('navbar-fixed-top');
+					};
+					if( $(window)){
+						$('#home-three .navbar').addClass('navbar-fixed-top');
+					} 
+				});
+			}else{
+				
+				$('.navbar').addClass('navbar-fixed-top');
+					
+			};	
+		}
 
-    value = encodeURIComponent(value);
+		menuToggle();
+	}());
+	
+	
+	/*==============================================================*/
+    // Parallax Scrolling
+    /*==============================================================*/
+	
+	(function () {
+		function parallaxInit() {				
+			$("#ticket").parallax("50%", 0.3);
+			$("#choose-color").parallax("50%", 0.3);
+			$("#blue #choose-color").parallax("50%", 0.3);
+		}	
+		parallaxInit();
+	}());
+	
+	
+	
+	/*==============================================================*/
+    // Fun Facts
+    /*==============================================================*/
+	
+	(function () {
 
-    var updatedCookie = name + "=" + value;
-
-    for (var propName in options) {
-        updatedCookie += "; " + propName;
-        var propValue = options[propName];
-        if (propValue !== true) {
-            updatedCookie += "=" + propValue;
-        }
-    }
-
-    document.cookie = updatedCookie;
-}
-// возвращает cookie с именем name, если есть, если нет, то undefined
-function getCookie(name) {
-    var matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-//Плавный скролл
-$(".scroll").click(function () {
-    var elementClick = $(this).attr("href")
-    var destination = $(elementClick).offset().top - 40;
-    jQuery("html:not(:animated),body:not(:animated)").animate({scrollTop: destination}, 800);
-    return false;
-});
-
-// Отключаем все формы
-$('form').submit(function () {
-    return false;
-});
-
-
-$.validator.addMethod("anyDate",
-    function (value, element) {
-        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2}$/);
-    },
-    $.validator.format("Ведите правильную дату!")
-);
-
-$.validator.addMethod("digits",
-    function (value, element, arg) {
-        var digits = value.replace(/D/g, '');
-        return digits.match(/[0-9]/g).length == arg;
-    },
-    $.validator.format("Цифр должно быть {0}")
-);
-
-$("#mainForm").validate({
-    lang: 'ru',
-    rules: {
-        phone: {
-            required: true,
-            digits: 11
-        },
-        berut: {
-            required: true,
-            anyDate: true
-        },
-        vozvrat: {
-            required: true,
-            anyDate: true,
-            //dateGreater: 'berut'
-
-        }
-    },
-    submitHandler: function (form) {
-        $(".validation").hide();
-        sendKey(form, true);
-    },
-    invalidHandler: function (event, validator) {
-
-        var errors = validator.numberOfInvalids();
-        cal1Init();
-        cal2Init();
-        $(".validation").html(validator.errorList[0].message);
-        //$(".validation").show();
-    }
-});
-
-
-function sendKey(form, popup) {
-    //console.log($(form).attr("action"));
-    var a=getCookie('kaycom_phone');
-    $('#RealButton').text('Запросить код повторно через 30');
-    if (timeoutID==null){
-        timer();
-    }else{
-        clearTimeout(timeoutID);
-        timer();
-    }
-    var phone_1=$('input[name=phone]').val();
-    var flaag=true//телефон переехал на шаг 3, поэтому при заполнении дат всегда перекидываем на заказ, но если человек заполнил телефон то производим подтверждение телефона
-    // if (phone_1==""){
-    //     //nonPhone();
-    //     guesjsontparser();
-    //     $('.load_im').show();
-    //     return false;
-    //  }
-    if (a!=null){
-        guesjsontparser();
-        return false;
-    }else{
-        popupForm();
-        $.ajax({
-            type: "POST",
-            url: $(form).attr("action"),
-            data: new FormData(form),
-            processData: false,
-            contentType: false,
-            success: function (data, status) {
-
-                $('.sendPhone').text($("input.phone").val());
-
-            },
-            error: function (xhr, desc, err) {
-                alert('Что-то пошло не так...');
+        $('#fun-facts, #achievement').bind('inview', function(event, visible, visiblePartX, visiblePartY) {
+            if (visible) {
+                $(this).find('.timer').each(function () {
+                    var $this = $(this);
+                    $({ Counter: 0 }).animate({ Counter: $this.text() }, {
+                        duration: 2000,
+                        easing: 'swing',
+                        step: function () {
+                            $this.text(Math.ceil(this.Counter));
+                        }
+                    });
+                });
+                $(this).unbind('inview');
             }
         });
-    }
-}
-$(".newKey").on("submit", function (event) {
-    event.preventDefault();
-    obj2=$('.newKey').text();
-    if(obj2.length>22){
-        return false;
-    }else{
-        sendKey(this, true);
-    }
+
+    }());
+	
+	
+	/*==============================================================*/
+    // Tabs Slide
+    /*==============================================================*/
+	(function () {
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {    
+			var target = $(this).attr('href');  			  
+			$(target).css('top','-'+$(window).width()+'px');   
+			var top = $(target).offset().top;
+			$(target).css({top:top}).animate({"top":"0px"}, "-20");
+		})
+	}());
+	
+	
+	/*==============================================================*/
+    // Magnific Popup
+    /*==============================================================*/
+	
+	(function () {
+		$('.image-link').magnificPopup({
+			gallery: {
+			  enabled: true
+			},		
+			type: 'image' 
+		});
+		$('.feature-image .image-link').magnificPopup({
+			gallery: {
+			  enabled: false
+			},		
+			type: 'image' 
+		});
+		$('.image-popup').magnificPopup({	
+			type: 'image' 
+		});
+		$('.video-link').magnificPopup({type:'iframe'});
+	}());
+	
+	
+	/*==============================================================*/
+    // Home Text Slide
+    /*==============================================================*/
+	(function () {
+		var win = $(window),
+			foo = $('#typer');
+		foo.typer(["Inroducing The World's Best", "Get New Idea's - New Concept", "Build Your Dream With"]);
+		foo = $('#promotion h1');
+		foo.typer(["Want to Work with Us?", "Make your dreams come true"]);	
+	}());
+	
+	
+	/*==============================================================*/
+    // Twenty20 Plugin
+    /*==============================================================*/
+	(function () {
+		$(window).load(function() {
+			$(".layer-slide").twentytwenty();
+		});
+	}());
+	
+	
+	/*==============================================================*/
+    // Accordion
+    /*==============================================================*/
+	
+	(function () {
+		$('.faqs .collapse').on('shown.bs.collapse', function(){
+		$(this).parent().find(".fa-plus-circle").removeClass("fa-plus-circle").addClass("fa-minus-circle");
+		}).on('hidden.bs.collapse', function(){
+		$(this).parent().find(".fa-minus-circle").removeClass("fa-minus-circle").addClass("fa-plus-circle");
+		});
+		
+		$('.faqs .panel-heading').on('click', function() {
+			if (!$(this).hasClass('active'))
+			{
+			  $('.panel-heading').removeClass('active');
+			  $(this).addClass('active'); 
+			  setIconOpened(this);
+			}
+			else
+			{    
+			  if ($(this).find('b').hasClass('opened'))
+			  {
+				setIconOpened(null);
+			  }
+			  else
+			  {
+				setIconOpened(this);
+			  }
+			}
+		});
+		
+	}());
+	
+	
+	
+	/*==============================================================*/
+    // projects Filter
+    /*==============================================================*/
+
+	(function () {
+		$(window).load(function(){
+		  var $portfolio_selectors = $('.project-filter >ul>li>a');
+			var $portfolio = $('#projects');
+			$portfolio.isotope({
+				itemSelector : '.project-content',
+				layoutMode : 'fitRows'
+			});
+			
+			$portfolio_selectors.on('click', function(){
+				$portfolio_selectors.removeClass('active');
+				$(this).addClass('active');
+				var selector = $(this).attr('data-filter');
+				$portfolio.isotope({ filter: selector });
+				return false;
+			});
+			
+		});
+
+    }());
+	
+	
+	
+	/*==============================================================*/
+    // Architect Filter
+    /*==============================================================*/
+
+	(function () {
+		$(window).load(function(){
+		  var $portfolio_selectors = $('.architect-filter >ul>li>a');
+			var $portfolio = $('#all-architect');
+			$portfolio.isotope({
+				itemSelector : '.architect',
+				layoutMode : 'fitRows'
+			});
+			
+			$portfolio_selectors.on('click', function(){
+				$portfolio_selectors.removeClass('active');
+				$(this).addClass('active');
+				var selector = $(this).attr('data-filter');
+				$portfolio.isotope({ filter: selector });
+				return false;
+			});
+			
+		});
+
+    }());
+		
+		
+	/*==============================================================*/
+    // Google Map
+    /*==============================================================*/
+
+	
+	(function(){
+
+		var map;
+
+		map = new GMaps({
+			el: '#gmap',
+			lat: 43.04446,
+			lng: -76.130791,
+			scrollwheel:false,
+			zoom: 6,
+			zoomControl : true,
+			panControl : false,
+			streetViewControl : false,
+			mapTypeControl: false,
+			overviewMapControl: false,
+			clickable: false
+		});
+
+		var image = 'images/map-icon.png';
+		map.addMarker({
+			lat: 43.04446,
+			lng: -76.130791,
+			icon: image,
+			animation: google.maps.Animation.DROP,
+			verticalAlign: 'bottom',
+			horizontalAlign: 'center',
+			backgroundColor: '#d3cfcf',
+			 infoWindow: {
+				content: '<div class="map-info"><address>ThemeRegion<br />234 West 25th Street <br />New York</address></div>',
+				borderColor: 'red',
+			}
+		});
+		  
+		var styles = [ 
+
+			{
+			  "featureType": "road",
+			  "stylers": [
+				{ "color": "#E21243" }
+			  ]
+			  },{
+			  "featureType": "landscape",
+			  "stylers": [
+				{ "color": "#f7f7f7" }
+			  ]
+			  },{
+			  "elementType": "labels.text.fill",
+			  "stylers": [
+				{ "color": "#d3cfcf" }
+			  ]
+			  },{
+			  "featureType": "poi",
+			  "stylers": [
+				{ "color": "#ffffff" }
+			  ]
+			  },{
+			  "elementType": "labels.text",
+			  "stylers": [
+				{ "saturation": 1 },
+				{ "weight": 0.1 },
+				{ "color": "#555555" }
+			  ]
+			}
+	  
+		];
+
+		map.addStyle({
+			styledMapName:"Styled Map",
+			styles: styles,
+			mapTypeId: "map_style"  
+		});
+
+		map.setStyle("map_style");
+	}());
+	
+	
+	
 });
-
-
-$("#smsverification").on("submit", function (event) {
-
-    event.preventDefault();
-
-    var key = $("input.secretKey").val();
-    if (key != 0) {
-        var numskey = key.match(/[0-9]/g).length;
-        //console.log(numskey);
-        if (numskey != 4) {
-            $(".errorKey").text("Неверный код, попробуйте еще раз!").css("color", "red");
-            // console.log('туточки ошибка');
-        } else {
-            $('button[name=submit]').attr('id', 'ga_kit_selection');
-            $('.errorKey').html('<img src="/img/load.gif"/>');
-            $.ajax({
-                type: "POST",
-                url: $(this).attr("action"),
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    if (data.status === 'success') {
-                        //$(".errorKey").text("Код верен!").css("color", "green");
-                        setCookie("kaycom_phone", $("input.phone").val(), {'expires':3600*24*14} );
-
-                        $('.errorKey').show();
-                        guesjsontparser();
-                    }
-                    else {
-                        $(".errorKey").show();
-                        //console.log(data);
-                        $(".errorKey").text("Неверный код, попробуйте еще раз!").css("color", "red");
-                    }
-                },
-                error: function (xhr, desc, err) {
-                    alert('Ошибка');
-
-                }
-            });
-        }
-    } else {
-        $(".errorKey").text("Введите код!").css("color", "red");
-    }
-
-});
-function guesjsontparser() {
-    var name = $("input.phone").val();
-    var email = $("#mainForm input[name=email]").val();
-    var berut = $("#mainForm input[name=berut]").val();
-    var vozvrat = $("#mainForm input[name=vozvrat]").val();
-    var phone = $("#mainForm input[name=phone]").val();
-
-    $.post("prokladka/universal.php",
-        {id:0, name: name, email: email, phone: phone, pickupDate: berut, returnDate: vozvrat},
-        function (response) {
-            //console.log(response);
-            $.post("main-form2.php",
-                {id:0, name: name, email: email, phone: phone, pickupDate: berut, returnDate: vozvrat},
-                function (response) {
-                    window.location.href = "booking.php?stepid=1";
-                }
-            );
-        }
-    );
-}
-
-function explode( delimiter, string ) {
-
-    var emptyArray = { 0: '' };
-
-    if ( arguments.length != 2
-        || typeof arguments[0] == 'undefined'
-        || typeof arguments[1] == 'undefined' )
-    {
-        return null;
-    }
-
-    if ( delimiter === ''
-        || delimiter === false
-        || delimiter === null )
-    {
-        return false;
-    }
-
-    if ( typeof delimiter == 'function'
-        || typeof delimiter == 'object'
-        || typeof string == 'function'
-        || typeof string == 'object' )
-    {
-        return emptyArray;
-    }
-
-    if ( delimiter === true ) {
-        delimiter = '1';
-    }
-
-    return string.toString().split ( delimiter.toString() );
-}
-
-
-$(document).ready(function () {
-
-
-
-
-    $('.changenumber').click(function(){
-        $('input[name=phone]').val('');
-    })
-    $('#RealButton').click(function(){
-        sendKey($('#mainForm'), true);
-        sendKey($('#mainForm'), true);
-    });
-    $(window).resize(function () {
-        $('.fullHeight').css('height', $(window).height());
-    });
-    $(window).resize();
-
-    $(document).on('click', '.scrollDownBtn,.howItWorksBtn', function (e) {
-        e.preventDefault();
-        $('body,html').animate({scrollTop: $('section.steps').offset().top});
-        return false;
-    })
-
-    $(document).on('click', 'section.reviews .moreBtn', function (e) {
-        e.preventDefault();
-        $('section.reviews .wrapper .reviewsWrapper .review').removeClass('hidden');
-        $(e.currentTarget).remove();
-        return false;
-    })
-
-    //запрет скрола карт на мобилках
-    var isMobile = {
-        Android: function() {
-            return navigator.userAgent.match(/Android/i);
-        },
-        BlackBerry: function() {
-            return navigator.userAgent.match(/BlackBerry/i);
-        },
-        iOS: function() {
-            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        },
-        Opera: function() {
-            return navigator.userAgent.match(/Opera Mini/i);
-        },
-        Windows: function() {
-            return navigator.userAgent.match(/IEMobile/i);
-        },
-        any: function() {
-            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-        }
-    };
-
-    ymaps.ready(init);
-    var myMap;
-
-    function init() {
-        myMap = new ymaps.Map("map", {
-            center: [43.68334114408006,40.21405544313047],
-            zoom: 17,
-            controls: []
-        });
-        myMap.behaviors.disable('scrollZoom');
-        if(isMobile.any()){
-            //console.log('работает');
-            myMap.behaviors.disable('drag');
-        }
-        myMap.controls.add(
-            new ymaps.control.ZoomControl()
-        );
-
-        // Создание метки
-        var myPlacemark = new ymaps.Placemark(
-            [43.68334114408006,40.21405544313047], {
-                hintContent: 'Красная Поляна<br>ул. Защитников Кавказа 65<br>8 800 333 25 33'
-            });
-
-
-        myMap.geoObjects.add(myPlacemark);
-    };
-
-});
-
-
-$('button#submit').click(function () {
-    if ($('input[type="text"][value=""]').length) {
-        alert("есть input-ы с пустым value!");
-        //    $(this).css("border", "1px solid red");
-    } else {
-        //  $.ajax(...);
-    }
-});
-
 
