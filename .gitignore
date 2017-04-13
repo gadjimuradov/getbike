@@ -2,5 +2,11 @@
 getbike/settings.py
 assets/
 media/
+getbike/gunicorn.conf.py
+*.egg-info
+*.pot
+*.py[co]
+.tox/
+__pycache__
 
 
