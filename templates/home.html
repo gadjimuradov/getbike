@@ -21,7 +21,7 @@
         <div class="container">
             <div class="other-features text-center">
                 <div class="row">
-                    <form method="post" action="/booking/">
+                    <form method="post" action="{% url 'booking:booking-pre-validate' %}">
                     <div class="col-sm-3">
                         <input type='text' class="form-control" id='datetimepicker1'>
                     </div>

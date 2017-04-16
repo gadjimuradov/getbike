@@ -36,6 +36,10 @@ class TypeProduct(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Тип комплекта'
+        verbose_name_plural = 'Типы комплектов'
+
 
 class Accessory(models.Model):
     name = models.CharField(max_length=200)

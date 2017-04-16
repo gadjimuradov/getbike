@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic.base import View
 
 from catalog.models import Category, Product
@@ -6,7 +7,8 @@ from catalog.models import Category, Product
 
 class BookingPreValidate(View):
     def post(self,request, *args, **kwargs):
-        return redirect(reve)
+        return redirect(reverse('booking:booking'))
+
 
 class BookingView(View):
     template_name = 'booking/booking.html'
