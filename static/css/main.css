@@ -421,7 +421,7 @@ textarea.form-control {
 	text-transform:uppercase;
 	padding:10px 17px;
 	font-weight:400;
-	background-color:transparent;
+	background-color:#fff;
 }
 
 #navigation .navbar .navbar-right .dropdown-menu li a:hover, 
@@ -1981,7 +1981,7 @@ textarea.form-control {
 #video-promotion {
 	color:#fff;
 	background-color: #CD3057;
-	background-image:url(../images/about-us/video-bg.jpg);
+	background-image:url(/assets/images/about-us/video-bg.jpg);
 	padding:190px 0 230px;
 }
 

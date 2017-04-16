@@ -8,6 +8,8 @@ jQuery(function ($) {
 
     (function () {
 
+
+
         $('.fa-search').on('click', function() {
             $('.search').fadeIn(500, function() {
               $(this).toggleClass('search-toggle');
@@ -137,7 +139,7 @@ jQuery(function ($) {
 			foo = $('#typer');
 		foo.typer(["Inroducing The World's Best", "Get New Idea's - New Concept", "Build Your Dream With"]);
 		foo = $('#promotion h1');
-		foo.typer(["Want to Work with Us?", "Make your dreams come true"]);	
+		foo.typer(["Мы привезем лучшее горнолыжное снаряжение прямо в отель", "Зачем стоять в очередях в пунктах проката?"]);
 	}());
 	
 	
@@ -246,77 +248,7 @@ jQuery(function ($) {
 	
 	(function(){
 
-		var map;
 
-		map = new GMaps({
-			el: '#gmap',
-			lat: 43.04446,
-			lng: -76.130791,
-			scrollwheel:false,
-			zoom: 6,
-			zoomControl : true,
-			panControl : false,
-			streetViewControl : false,
-			mapTypeControl: false,
-			overviewMapControl: false,
-			clickable: false
-		});
-
-		var image = 'images/map-icon.png';
-		map.addMarker({
-			lat: 43.04446,
-			lng: -76.130791,
-			icon: image,
-			animation: google.maps.Animation.DROP,
-			verticalAlign: 'bottom',
-			horizontalAlign: 'center',
-			backgroundColor: '#d3cfcf',
-			 infoWindow: {
-				content: '<div class="map-info"><address>ThemeRegion<br />234 West 25th Street <br />New York</address></div>',
-				borderColor: 'red',
-			}
-		});
-		  
-		var styles = [ 
-
-			{
-			  "featureType": "road",
-			  "stylers": [
-				{ "color": "#E21243" }
-			  ]
-			  },{
-			  "featureType": "landscape",
-			  "stylers": [
-				{ "color": "#f7f7f7" }
-			  ]
-			  },{
-			  "elementType": "labels.text.fill",
-			  "stylers": [
-				{ "color": "#d3cfcf" }
-			  ]
-			  },{
-			  "featureType": "poi",
-			  "stylers": [
-				{ "color": "#ffffff" }
-			  ]
-			  },{
-			  "elementType": "labels.text",
-			  "stylers": [
-				{ "saturation": 1 },
-				{ "weight": 0.1 },
-				{ "color": "#555555" }
-			  ]
-			}
-	  
-		];
-
-		map.addStyle({
-			styledMapName:"Styled Map",
-			styles: styles,
-			mapTypeId: "map_style"  
-		});
-
-		map.setStyle("map_style");
 	}());
 	
 	

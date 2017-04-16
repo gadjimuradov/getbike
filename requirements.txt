@@ -10,5 +10,7 @@ rjsmin==1.0.12
 sorl-thumbnail==12.3
 django-extensions==1.7.6
 django-ckeditor==5.2.1
+djangorestframework==3.5.3
+
 
 

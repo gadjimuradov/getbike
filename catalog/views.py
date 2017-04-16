@@ -1,18 +1,14 @@
 from django.shortcuts import render
+from django.views.generic.base import View
 
 from catalog.forms import BookingForm
 from catalog.models import Product
 
 
-def booking(request):
-    form = BookingForm()
-    ctx = dict()
-    ctx['form'] = form
-    return render(request,'catalog/booking.html', ctx)
+class IndexView(View):
+    template_name = 'catalog/index.html'
 
+    def get(self, request, *args, **kwargs):
+        ctx = dict()
 
-def booking_complect(request):
-    ctx = dict()
-    products = Product.objects.all()
-    ctx['products'] = products
-    return render(request, 'catalog/booking-complect.html', ctx)
+        return render(request, self.template_name,ctx)

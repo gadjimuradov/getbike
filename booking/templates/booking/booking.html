@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="page-title" class="image-bg">
+    <div class="container text-center">
+        <div class="title-content">
+            <h1>Бронирование</h1>
+            <p> Бронирование велосипедов , роликов</p>
+        </div>
+    </div>
+</div>
+    <div id="about-us" class="padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1>Бронирование</h1>
+                    <h2>Даты</h2>
+                    <form method="post">{% csrf_token %}
+                        {{ form }}
+                        <input type="submit" value="Send">
+                    </form>
+                    <h2>Как вы хотите получить снаряжение</h2>
+                    <a class="btn btn-info">Привезите мне</a>
+                    <a class="btn btn-default">Заберу сам</a>
+
+                    <a href="{% url 'booking:booking-complect' %}">Ко второму шагу</a>
+
+                </div>
+                <div class="col-md-4">
+                    <h2>Ваш заказ</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
