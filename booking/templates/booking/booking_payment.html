@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block content %}
+    <div id="page-title" class="image-bg">
+    <div class="container text-center">
+        <div class="title-content">
+            <h1>Бронирование</h1>
+        </div>
+    </div>
+</div>
+    <div id="about-us" class="padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <h1>Бронирование</h1>
+                    <h2>Оплата Шаг 3</h2>
+                    <h3>Все готово! Проверьте ваш заказ</h3>
+                    <input type="text" name="email">
+
+                </div>
+                <div class="col-md-3">
+                    {% cart_total %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

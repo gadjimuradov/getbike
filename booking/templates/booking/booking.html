@@ -1,36 +1,80 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
+{% load cart_tags %}
 {% block content %}
     <div id="page-title" class="image-bg">
-    <div class="container text-center">
-        <div class="title-content">
-            <h1>Бронирование</h1>
-            <p> Бронирование велосипедов , роликов</p>
+        <div class="container text-center">
+            <div class="title-content">
+                <h1>Бронирование</h1>
+                <p> Бронирование велосипедов , роликов</p>
+            </div>
         </div>
     </div>
-</div>
     <div id="about-us" class="padding">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                    <h1>Бронирование</h1>
-                    <h2>Даты</h2>
+                <div class="col-md-9">
+
+                    <div class="shortcode">
+                        {{ basket }}Бронирование   1 Даты -------- 2 Комплекты -------- 3 Оплата
+                    </div>
                     <form method="post">{% csrf_token %}
-                        {{ form }}
-                        <input type="submit" value="Send">
-                    </form>
-                    <h2>Как вы хотите получить снаряжение</h2>
-                    <a class="btn btn-info">Привезите мне</a>
-                    <a class="btn btn-default">Заберу сам</a>
+                    <div class="shortcode">
+                        <h2>Даты <span style="font-size: 14px;">Шаг 1</span></h2>
+                        <div class="row">
 
-                    <a href="{% url 'booking:booking-complect' %}">Ко второму шагу</a>
+                            <div class="col-sm-4">
+                                <input type='text' value="{{ basket.date_take }}" name="{{ form.take_date.html_name }}" class="form-control"
+                                       id='datetimepicker1'>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type='text' value="{{ basket.date_return }}" name="{{ form.take_date.html_name }}" class="form-control"
+                                       id='datetimepicker2'>
+                            </div>
 
+                        </div>
+                    </div>
+                    <div class="shortcode">
+                        <h2>Как вы хотите получить снаряжение?</h2>
+                       <div class="row">
+                        <div class="col-md-12">
+                        <a class="btn btn-large btn-info">Привезите мне</a>
+                        <a class="btn btn-large btn-default">Заберу сам</a>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" id="hotel" name="hotel" class="form-control">
+                            <input type="text" value="{{ basket.id }}" id="basket_id" name="basket_id" class="form-control">
+                        </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-success">Ко второму шагу</button>
+                  </form>
                 </div>
-                <div class="col-md-4">
-                    <h2>Ваш заказ</h2>
+                <div class="col-md-3">
+                    {% cart_total %}
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block js_block %}
+    <script type="text/javascript" src="{% static 'js/custom_main.js' %}"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            $("#datetimepicker1").on("dp.change", function(){
+                $("#dateTake").text($(this).val());
+            });
+            $("#datetimepicker2").on("dp.change", function(){
+                $("#dateReturn").text($(this).val());
+            });
+
+            $("#hotel").on('keyup', function(eventObject){
+                var hotelName = $("#hotel").val();
+                $("#hotelPlace").text(hotelName);
+            });
+        });
+    </script>
 {% endblock %}
 

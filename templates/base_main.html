@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <!--title-->
     <title>Прокат велосипедов</title>
 
@@ -67,9 +68,6 @@
                     <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
                     <li><a href="#"><i class="fa fa-behance"></i></a></li>
                 </ul>
-					<span class="login-section">
-						<a href="login-signup.html"><i class="fa fa-user"></i>Signup / Login</a>
-					</span>
             </div>
             <nav id="main-menu" class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
@@ -136,25 +134,8 @@
 
 <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker1').datetimepicker({
-            locale: 'ru',
-            format: 'DD.MM.YYYY',
-        });
-        $('#datetimepicker2').datetimepicker({
-            locale: 'ru',
-            format: 'DD.MM.YYYY',
-            useCurrent: false,
-        });
-
-        $("#datetimepicker1").on("dp.change", function (e) {
-            $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
-        });
-        $("#datetimepicker2").on("dp.change", function (e) {
-            $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
-        });
-    });
-</script>
+<script type="text/javascript" src="{% static 'js/custom_main.js' %}"></script>
+{% block js_block %}
+{% endblock %}
 </body>
 </html>
