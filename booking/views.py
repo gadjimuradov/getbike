@@ -89,6 +89,11 @@ class BookingPaymentView(View):
 
     def get(self, request, *args, **kwargs):
         ctx = dict()
+        phone = request.COOKIES.get('phone')
+        basket_id = request.session.get('basket')
+        if basket_id:
+            basket = Basket.objects.filter(id=basket_id).first()
+            ctx['basket'] = basket
         return render(request, self.template_name, ctx)
 
     def post(self, request, *args, **kwargs):

@@ -1,0 +1,31 @@
+<div class="shortcode">
+                        <div class="col-md-10">
+                        <div class="mainBlock">
+                            <div class="topBlock">
+                                <h1 class="title">Бронирование</h1>
+                                <div class="steps">
+                                    <div class="step step-1 active">
+                                        <a href="{% url 'booking:booking' %}" class="goto-step-1">
+                                            <span class="number">1</span>
+                                            <span class="text">Даты</span>
+                                        </a>
+                                    </div>
+                                    <div class="step step-2 active">
+                                        <a href="{% url 'booking:booking-complect' %}" class="goto-step-2">
+                                            <span class="number">2</span>
+                                            <span class="text">Комплекты</span>
+                                        </a>
+                                    </div>
+                                    <div class="step step-3">
+                                        <a href="{% url 'booking:booking-payment' %}" class="goto-step-3">
+                                            <span class="number">3</span>
+                                            <span class="text">Оплата</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="only_mobile formRow" style="border: none; display: none;"></div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>

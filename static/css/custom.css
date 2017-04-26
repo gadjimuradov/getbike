@@ -1,0 +1,57 @@
+.mainBlock {
+    width: 100%;
+    padding-right: 100px;
+}
+
+.mainBlock .topBlock .title {
+    font-size: 32px;
+    color: #000000;
+    line-height: 36px;
+    font-weight: 300;
+    display: inline-block;
+    margin: 0;
+}
+
+.mainBlock .topBlock .steps {
+    float: right;
+    font-size: 0;
+}
+
+.mainBlock .topBlock .steps .step {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 500;
+}
+
+.mainBlock .topBlock .steps .step-1:after, .mainBlock .topBlock .steps .step-2:after  {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 1px;
+    width: 95px;
+    background: #6e6e6e;
+    margin: 0 10px;
+}
+
+
+.mainBlock .topBlock .steps .step .number {
+    -webkit-box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+    display: inline-block;
+    vertical-align: middle;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    border: 1px solid #6E6E6E;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 38px;
+    margin-right: 10px;
+}
+
+.mainBlock .topBlock .steps .step .text {
+    font-size: 18px;
+    display: inline-block;
+    vertical-align: middle;
+}

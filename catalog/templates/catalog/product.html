@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block content %}
+    <div id="page-title" class="image-bg">
+        <div class="container text-center">
+            <div class="title-content">
+                <h1>{{ object }}</h1>
+                <p>{{ object.description }}</p>
+            </div>
+        </div>
+    </div>
+    <div id="project-details" class="padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div id="project-carousel" class="carousel carousel-fade slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img class="img-responsive"
+                                     src="{{ object.img.url }}" alt="">
+                            </div>
+                        </div>
+                        <ol class="project-indicators">
+                            <li data-target="#project-carousel" data-slide-to="0" class="active">
+                                {% thumbnail object.img '400x300' crop="center" as img %}
+                                <img class="img-responsive"
+                                     src="{{ img.url }}" alt="">
+                                {% endthumbnail %}
+                            </li>
+
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="project-info">
+                        <h2>{{ object }}</h2>
+                        <p>Labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                            voluptate velit esse cillum dolore.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

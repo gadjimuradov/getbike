@@ -30,6 +30,18 @@ class Product(models.Model):
         verbose_name_plural = 'Комплекты'
 
 
+class ProductImage(models.Model):
+    img = models.ImageField(upload_to='products/')
+    product = models.ForeignKey(Product, related_name='images')
+    position = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return str(self.pk)
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'
+
 class TypeProduct(models.Model):
     name = models.CharField(max_length=200)
 
