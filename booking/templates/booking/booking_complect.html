@@ -72,7 +72,8 @@
                                     <img class="img-responsive" src="https://themeregion.com/demo/arki/default-images/blog/1.jpg" alt="">
                                 </a>
                             <h5>{{ p }}</h5>
-                            <a class="add-product" data-id="{{ p.pk }}">Добавить</a>
+                            <span class="product-price">{{ p.price }}</span>
+                            <a class="add-product" data-id="{{ p.pk }}" data-price="{{ p.price }}">Добавить</a>
 
 
 							</div>
@@ -101,13 +102,17 @@
                 var complectBlock = complectsBoardFirst.clone();
                 complectBlock.css('display','block');
                 complectBlock.appendTo("#complects-area");
-                var productName = $(this).prev().html();
+                var productName = $(this).prev().prev().html();
+                var priceProduct = $(this).attr('data-price');
                 complectBlock.find('.panel-title a').html(productName);
+                var productInner = $('#product-inner');
+                var productItem = '<div><span>' + productName + '</span><span>' + priceProduct + '</span></div>';
+                $(productItem).appendTo(productInner);
+
 
             });
 
             $("body").on('click','.product-remove', function(){
-
                 $(this).parent().parent().remove();
             });
         });
