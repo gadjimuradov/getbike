@@ -137,7 +137,7 @@ jQuery(function ($) {
 	(function () {
 		var win = $(window),
 			foo = $('#typer');
-		foo.typer(["Inroducing The World's Best", "Get New Idea's - New Concept", "Build Your Dream With"]);
+		foo.typer(["Добро пожаловать на наш сайт", "Реализуйте свои мечты"]);
 		foo = $('#promotion h1');
 		foo.typer(["Мы привезем лучшее горнолыжное снаряжение прямо в отель", "Зачем стоять в очередях в пунктах проката?"]);
 	}());

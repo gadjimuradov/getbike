@@ -55,3 +55,12 @@
     display: inline-block;
     vertical-align: middle;
 }
+
+.main-icon-take {
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.main-icon-take:hover{
+	color:#ea0f42;
+}

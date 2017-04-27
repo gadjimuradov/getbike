@@ -83,6 +83,13 @@ class BookingComplectView(View):
 
         return render(request,self.template_name, ctx)
 
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            print(request.POST)
+            data = {'status': 'ok'}
+            return HttpResponse(json.dumps(data), content_type='application/json')
+
+
 
 class BookingPaymentView(View):
     template_name = 'booking/booking_payment.html'
