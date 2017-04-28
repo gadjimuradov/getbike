@@ -22,7 +22,7 @@ class Basket(models.Model):
     date_return = models.DateField(default=timezone.now)
     hotel = models.CharField(max_length=255, null=True, blank=True)
     status = models.CharField(max_length=128, default=OPEN, choices=STATUS_CHOICES)
-    total_sum = models.DecimalField(max_digits=10, decimal_places=2)
+    total_sum = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     def __str__(self):
         return str(self.pk)
