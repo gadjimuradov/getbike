@@ -20,23 +20,35 @@
     <div id="services" class="padding" style="background-color: #eaeaea;">
         <div class="container">
             <div class="text-center section-title">
-					<h1>Забронируйте</h1>
-				</div>
+                <h1>Забронируйте</h1>
+            </div>
             <div class="other-features text-center">
                 <div class="row">
                     <form id="pre-validate-form" method="post" action="{% url 'booking:booking-pre-validate' %}">
-                    <div class="col-sm-3">
-                        <input type='text' name="{{ form.take_date.html_name }}" class="form-control" id='datetimepicker1'>
-                    </div>
-                    <div class="col-sm-3">
-                        <input type='text' name="{{ form.return_date.html_name }}" class="form-control" id='datetimepicker2'>
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="text" name="{{ form.phone.html_name }}" class="form-control" placeholder="Телефон" name="phone">
-                    </div>
-                    <div class="col-sm-3">
-                        <button type="submit" class="btn btn-lg btn-success">Выбрать комплект</button>
-                    </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="">Доставка</label>
+                                <input type='text' name="{{ form.take_date.html_name }}" class="form-control"
+                                   id='datetimepicker1'>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="">Возврат</label>
+                            <input type='text' name="{{ form.return_date.html_name }}" class="form-control"
+                                   id='datetimepicker2'>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="">Телефон</label>
+                            <input type="text" name="{{ form.phone.html_name }}" class="form-control"
+                                   placeholder="Телефон" name="phone">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <button style="margin-top: 25px;" type="submit" class="btn btn-lg btn-success">Выбрать комплект</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -49,7 +61,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="other-feature">
-                           <i style="font-size:32px;" class="fa fa-hand-pointer-o main-icon-take"></i>
+                            <i style="font-size:32px;" class="fa fa-hand-pointer-o main-icon-take"></i>
 
                             <h3>Бронируйте</h3>
                             <p>Забронировать необходимое снаряжение можно онлайн
@@ -80,48 +92,48 @@
 
 
     <div id="architect" class="padding">
-			<div class="container">
-				<div class="text-center section-title">
-					<h1>Снаряжение</h1>
-				</div>
+        <div class="container">
+            <div class="text-center section-title">
+                <h1>Снаряжение</h1>
+            </div>
 
-				<div class="architect-filter text-center">
+            <div class="architect-filter text-center">
                 <ul class="list-inline">
                     <li><a class="active" href="#" data-filter="*">Все</a></li>
                     {% for c in categories %}
-                    <li><a href="#" data-filter=".{{ c.slug }}">{{ c }}</a></li>
+                        <li><a href="#" data-filter=".{{ c.slug }}">{{ c }}</a></li>
                     {% endfor %}
                 </ul
-				</div>
+            </div>
 
-				<div id="all-architect">
-					<div class="row">
+            <div id="all-architect">
+                <div class="row">
                     {% for p in products %}
 
-                    	<div class="col-sm-4 architect {{ p.category.slug }}">
-							<div class="architect-image">
-								<a href="https://themeregion.com/demo/arki/default-images/project/a1.jpg" class="image-link">
+                        <div class="col-sm-4 architect {{ p.category.slug }}">
+                            <div class="architect-image">
+                                <a href="{{ p.img.url }}" class="image-link">
                                     {% thumbnail p.img '400x300' crop="center" as img %}
-                                    <img class="img-responsive" src="{{ img.url }}" alt="" /></a>
+                                        <img class="img-responsive" src="{{ img.url }}" alt=""/></a>
                                     {% endthumbnail %}
-							</div>
-							<div class="architect-info" style="border:1px solid #000;">
-								<h3><a href="{% url 'catalog:product-detail' p.pk %}">{{ p }}</a></h3>
-								<h4>{{ p.category }}</h4>
-								<div class="socials">
-									<ul class="list-inline social-icons">
-										<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-										<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-										<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
+                            </div>
+                            <div class="architect-info" style="border:1px solid #000;">
+                                <h3><a href="{% url 'catalog:product-detail' p.pk %}">{{ p }}</a></h3>
+                                <h4>{{ p.category }}</h4>
+                                <div class="socials">
+                                    <ul class="list-inline social-icons">
+                                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     {% endfor %}
-					</div>
-				</div>
-			</div>
-		</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="twitter" class="padding">
         <div class="overlay-bg"></div>
@@ -194,27 +206,36 @@
 
 {% block js_block %}
     <script type="text/javascript">
-    $(function(){
-        $("#pre-validate-form").on("submit", function(e){
-            e.preventDefault();
-            $.ajax({
-                url: '/booking/pre-validate/',
-                type: 'POST',
-                beforeSend: function (jqXHR, settings) {
-                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                    jqXHR.setRequestHeader("x-csrftoken", csrfToken);
+        $(function () {
+            $('form input[name=phone]').mask('+7(999)999-99-99');
+            $("#pre-validate-form").validate({
+                rules: {
+                    take_date: {required: true},
+                    return_date: {required: true},
+                    phone: {required: true}
                 },
-                dataType: 'json',
-                data: $("#pre-validate-form").serialize(),
-            }).done(function(data){
-                location.href = '/booking/'
-                console.log(data);
-            }).fail(function (e, data) {
-                alert(data);
-                console.log(e);
-                console.log(data);
+                submitHandler: function (form) {
+
+                    $.ajax({
+                        url: '/booking/pre-validate/',
+                        type: 'POST',
+                        beforeSend: function (jqXHR, settings) {
+                            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                            jqXHR.setRequestHeader("x-csrftoken", csrfToken);
+                        },
+                        dataType: 'json',
+                        data: $("#pre-validate-form").serialize(),
+                    }).done(function (data) {
+                        location.href = '/booking/'
+                        console.log(data);
+                    }).fail(function (e, data) {
+                        alert(data);
+                        console.log(e);
+                        console.log(data);
+                    });
+                }
             });
+
         });
-    });
     </script>
 {% endblock %}

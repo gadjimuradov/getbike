@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load thumbnail %}
 {% load cart_tags %}
+{% load humanize %}
 {% block content %}
     <div id="page-title" class="image-bg">
     <div class="container text-center">
@@ -16,6 +17,7 @@
                 <div class="col-md-9">
                     <h2>Оплата Шаг 3</h2>
                     <h3>Все готово! Проверьте ваш заказ</h3>
+                    <form id="payment-form" method="post"> {% csrf_token %}
                     <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -26,10 +28,11 @@
                     <div class="col-md-6" style="padding-top: 25px;">
                         <label></label>
                            <button type="submit"class="btn btn-lg btn-success">
-                           <i class="fa fa-credit-card"></i>    Оплатить 4500 рублей
+                           <i class="fa fa-credit-card"></i>    Оплатить {{ basket.total_sum|floatformat:0|intcomma }} рублей
                            </button>
                     </div>
                     </div>
+                    </form>
                 </div>
                 <div class="col-md-3">
                     {% cart_total %}
@@ -39,3 +42,17 @@
     </div>
 {% endblock %}
 
+{% block js_block %}
+    <script type="text/javascript">
+        $(function () {
+            $("#payment-form").validate({
+                rules: {
+                    email: {required: true}
+                },
+                submitHandler: function (form) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
+{% endblock %}

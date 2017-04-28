@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load thumbnail %}
 {% load cart_tags %}
+{% load humanize %}
 {% block content %}
     <div id="page-title" class="image-bg">
         <div class="container text-center">
@@ -13,32 +14,37 @@
     <div id="about-us" class="padding">
         <div class="container">
             <div class="row">
-            {% include 'booking/steps_area.html' %}
+                {% include 'booking/steps_area.html' %}
                 <div class="col-md-9">
-                <form id="complects-form" method="post">{% csrf_token %}
-                    <h1>Комплекты</h1>
-                    <div id="complects-area">
+                    <form id="complects-form" method="post">{% csrf_token %}
+                        <h1>Комплекты</h1>
+                        <div id="complects-area">
 
-                    <div class="complects-board-btn panel panel-default" style="display: none;">
-                        <div class="panel-heading active" role="tab">
+                            <div class="complects-board-btn panel panel-default" style="display: none;">
+                                <div class="panel-heading active" role="tab">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                            href="#collapse1"><span class="fa fa-minus-circle"></span></a>
                                     </h4>
-                                <i class="product-remove" style="float: right;margin-top: -20px; cursor: pointer;">Удалить</i>
+                                    <i class="product-remove" style="float: right;margin-top: -20px; cursor: pointer;">Удалить</i>
                                 </div>
-                        <div id="collapse1" class="panel-collapse collapse in">
+                                <div id="collapse1" class="panel-collapse collapse in">
                                     <div class="panel-body">
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label for="">Имя</label>
+                                                <input type="hidden" name="line" class="form-control">
+                                                <input type="hidden" name="product" class="form-control">
                                                 <input type="text" class="form-control" name="userName">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="">Пол</label>
-                                                <input type="text" class="form-control" name="weight">
+                                                <select name="gender" class="form-control">
+                                                    <option value="male">Мужской</option>
+                                                    <option value="woman">Женский</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -55,36 +61,97 @@
                                         </div>
                                     </div>
                                 </div>
-                    </div>
 
-                    </div>
-                </form>
+                            </div>
+
+
+                            {% for line in basket.lines.all %}
+                                <div class="complects-board-btn panel panel-default">
+                                    <div class="panel-heading active" role="tab">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                               href="#collapse1"><span class="fa fa-minus-circle"></span></a>
+                                        </h4>
+                                        <i class="product-remove"
+                                           style="float: right;margin-top: -20px; cursor: pointer;">Удалить</i>
+                                    </div>
+                                    <div id="collapse1" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label for="">Имя</label>
+                                                    <input type="text" name="line" class="form-control" value="{{ line.pk }}">
+                                                    <input type="text" name="product" class="form-control" value="{{ line.product.pk }}">
+                                                    <input type="text" class="form-control" name="userName" value="{{ line.fio }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="">Пол</label>
+                                                    <select name="gender" class="form-control">
+                                                        <option value="male">Мужской</option>
+                                                        <option value="woman">Женский</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="">Вес</label>
+                                                    <input type="text" class="form-control" name="weight" value="{{ line.weight|floatformat:0 }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="">Рост</label>
+                                                    <input type="text" class="form-control" name="height" value="{{ line.height|floatformat:0 }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            {% endfor %}
+                        </div>
+                    </form>
                     <h2>Я хочу</h2>
 
-                        {% for c in categories %}
-                            <button type="button" class="btn btn-warning btn-lg">{{ c }}</button>
-                        {% endfor %}
+                    {% for c in categories %}
+                        <button type="button" class="btn btn-warning btn-lg">{{ c }}</button>
+                    {% endfor %}
 
                     <hr>
                     <div class="row">
-                    {% for p in products %}
-                        <div class="col-sm-4">
-							<div class="entry-content">
-								<a class="entry-thumb" href="#">
-                                    <img class="img-responsive" src="https://themeregion.com/demo/arki/default-images/blog/1.jpg" alt="">
-                                </a>
-                            <h5>{{ p }}</h5>
-                            <span class="product-price">{{ p.price }}</span>
-                            <a class="add-product" data-id="{{ p.pk }}" data-price="{{ p.price }}">Добавить</a>
+                        {% for p in products %}
+                            <div class="col-sm-4">
+                                <div class="entry-content">
+                                    <a class="entry-thumb" href="#">
+                                        {% thumbnail p.img '262x262' crop="center" as img %}
+                                            <img class="img-responsive" src="{{ img.url }}" alt="">
+                                        {% endthumbnail %}
+                                    </a>
+                                    <h5 style="text-align: center;">{{ p }}</h5>
+                                    <div class="product-price"
+                                         style="text-align: center;">{{ p.price|floatformat:0|intcomma }} Р
+                                    </div>
+                                    <div class="action-control add-product" style="text-align: center;"
+                                         data-id="{{ p.pk }}" data-price="{{ p.price }}">
+                                        <a class="btn btn-success" style="color: white;width: 100px;">
+                                <span style="cursor: pointer;">
+                                    <i class="fa fa-shopping-cart"> </i>   Добавить
+                                </span>
+                                        </a>
+                                    </div>
 
 
-							</div>
-						</div>
+                                </div>
+                            </div>
                         {% endfor %}
                     </div>
 
                     <div style="text-align: center; margin-top: 20px;">
-                    <a id="step2-button" class="btn btn-lg btn-success" href="{% url 'booking:booking-payment' %}">К третьему шагу</a>
+                        <a id="step2-button" class="btn btn-lg btn-success" href="{% url 'booking:booking-payment' %}">К
+                            третьему шагу</a>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -99,10 +166,10 @@
 
     <script type="text/javascript">
         $(function () {
-            $(".add-product").on('click', function(){
+            $(".add-product").on('click', function () {
                 var complectsBoardFirst = $('.complects-board-btn:first');
                 var complectBlock = complectsBoardFirst.clone();
-                complectBlock.css('display','block');
+                complectBlock.css('display', 'block');
                 complectBlock.appendTo("#complects-area");
                 var productName = $(this).prev().prev().html();
                 var priceProduct = $(this).attr('data-price');
@@ -110,31 +177,31 @@
                 var productInner = $('#product-inner');
                 var productItem = '<div><span>' + productName + '</span><span>' + priceProduct + '</span></div>';
                 $(productItem).appendTo(productInner);
-
-
+                var productId = $(this).attr('data-id');
+                complectBlock.find('input[name=product]').val(productId);
             });
 
-            $("body").on('click','.product-remove', function(){
+            $("body").on('click', '.product-remove', function () {
                 $(this).parent().parent().remove();
             });
 
-            $("#step2-button").on('click', function(e){
+            $("#step2-button").on('click', function (e) {
                 e.preventDefault();
                 var formData = $("#complects-form").serialize();
                 $.ajax({
                     url: '/booking/complect/',
                     type: 'POST',
-                        beforeSend: function (jqXHR, settings) {
+                    beforeSend: function (jqXHR, settings) {
                         var csrfToken = $('meta[name="csrf-token"]').attr('content');
                         jqXHR.setRequestHeader("x-csrftoken", csrfToken);
                     },
                     dataType: 'json',
                     data: formData,
-                }).done(function(data){
-                    alert(data);
+                }).done(function (data) {
+                    location.href = '/booking/payment/'
                     console.log(data);
                 }).fail(function (e, data) {
-                    alert(data);
+
                     console.log(e);
                     console.log(data);
                 });

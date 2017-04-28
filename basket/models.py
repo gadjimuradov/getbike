@@ -22,6 +22,7 @@ class Basket(models.Model):
     date_return = models.DateField(default=timezone.now)
     hotel = models.CharField(max_length=255, null=True, blank=True)
     status = models.CharField(max_length=128, default=OPEN, choices=STATUS_CHOICES)
+    total_sum = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return str(self.pk)
@@ -32,18 +33,25 @@ class Basket(models.Model):
 
 
 class Line(models.Model):
-    order = models.ForeignKey(Basket, related_name='lines')
+    MALE, WOMAN = 'male','woman'
+    GENDER_CHOICES = (
+        (MALE,'Мужской'),
+        (WOMAN,'Женский'),
+    )
+    basket = models.ForeignKey(Basket, related_name='lines')
     product = models.ForeignKey(Product, related_name='basket_lines')
     weight = models.FloatField(default=0.0)
     height = models.FloatField(default=0.0)
     fio = models.CharField(max_length=255, null=True)
     quantity = models.IntegerField(default=0)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES, default=MALE)
 
     def __str__(self):
         return str(self.pk)
 
     class Meta:
+        ordering = ('pk',)
         verbose_name = 'Строка корзины'
         verbose_name_plural = 'Строки корзины'
 

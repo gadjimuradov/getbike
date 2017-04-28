@@ -1,14 +1,24 @@
+{% load humanize %}
+<div class="order-cart-space" style="font-size: 16px;">
+<div class="panel-cart" style="margin-bottom: 10px;">
 <h3>Ваш заказ</h3>
-<hr>
+</div>
+<div class="panel-body-space" style="padding: 5px;">
+<i class="fa fa-calendar-plus-o"></i>
 <span id="dateTake">{{ basket.date_take }}</span> - <span id="dateReturn">{{ basket.date_return }}</span>
 <hr>
 <div id="product-inner">
-
+   {% for l in basket.lines.all %}
+       <div>
+       <i class="fa fa-user-plus"> </i> {{ l.product }}{{ l.price|floatformat:0 }}
+       </div>
+   {% endfor %}
 </div>
 <hr>
-<span>Доставка</span>
-<span id="hotelPlace"></span>
-<hr>
-<div>
-    Итого <span></span>
+<i class="fa fa-truck"></i>
+<span id="hotelPlace">{{ basket.hotel }}</span>
+</div>
+<div class="panel-cart" style="padding: 10px;margin-top: 10px;">
+    Итого <span id="order-total" style="float: right;">{{ basket.total_sum|floatformat:0|intcomma }} Р</span>
+</div>
 </div>

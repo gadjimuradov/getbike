@@ -1,11 +1,12 @@
 import json
 
+from decimal import Decimal as D
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic.base import View
 
-from basket.models import Basket
+from basket.models import Basket, Line
 from booking.forms import BookingForm, BookingStepOneForm
 from catalog.models import Category, Product
 
@@ -86,9 +87,45 @@ class BookingComplectView(View):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
             print(request.POST)
-            data = {'status': 'ok'}
-            return HttpResponse(json.dumps(data), content_type='application/json')
+            print(request.session)
+            basket_id = request.session.get('basket')
+            basket = Basket.objects.filter(id=basket_id).first()
+            user_names = request.POST.getlist('userName')
+            products = request.POST.getlist('product')
+            weight = request.POST.getlist('weight')
+            height = request.POST.getlist('height')
+            gender = request.POST.getlist('gender')
+            lines = request.POST.getlist('line')
+            results = list(zip(products,user_names, weight, height, gender, lines))
+            data = {'status': 'error'}
+            for res in results:
+                if res[0]:
+                    data = {'status': 'ok'}
+                    product = Product.objects.filter(pk=res[0]).first()
+                    if not res[5]:
+                        line = Line()
+                        line.basket = basket
+                        line.product = product
+                        line.fio = res[1]
+                        line.weight = res[2]
+                        line.height = res[3]
+                        line.quantity = 1
+                        line.price = product.price
+                        line.save()
+                    else:
+                        line = Line.objects.filter(pk=res[5]).first()
+                        if line:
+                            line.fio = res[1]
+                            line.weight = res[2]
+                            line.height = res[3]
+                            line.save()
 
+            total_sum = D(0.0)
+            for l in basket.lines.all():
+                total_sum += l.price
+            basket.total_sum = total_sum
+            basket.save()
+            return HttpResponse(json.dumps(data), content_type='application/json')
 
 
 class BookingPaymentView(View):
@@ -104,4 +141,11 @@ class BookingPaymentView(View):
         return render(request, self.template_name, ctx)
 
     def post(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        print(request.POST)
+        ctx = dict()
+        basket_id = request.session.get('basket')
+        if basket_id:
+            basket = Basket.objects.filter(id=basket_id).first()
+            ctx['basket'] = basket
+
+        return render(request, self.template_name, ctx)
