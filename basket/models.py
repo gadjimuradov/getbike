@@ -8,6 +8,7 @@ from users.models import User
 
 class Basket(models.Model):
     phone = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100,null=True,blank=True)
     owner = models.ForeignKey(User, related_name='baskets', null=True)
     OPEN, MERGED, SAVED, FROZEN, SUBMITTED = ('Open', 'Merged','Saved', 'Frozen', 'Submitted')
     STATUS_CHOICES = (

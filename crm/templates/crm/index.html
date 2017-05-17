@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div id="page-title" class="image-bg">
+        <div class="container text-center">
+            <div class="title-content">
+                <h1>AMO CRM интеграция</h1>
+                <p> Интеграция с CRM</p>
+            </div>
+        </div>
+    </div>
+    <div id="about-us" class="padding">
+        <div class="container">
+            <div class="row">
+               <h1> Лиды</h1>
+                <table class="table">
+                  <thead>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Дата создания</th>
+                  </thead>
+                <tbody>
+                {% for l in leads %}
+                    <tr>
+                       <td>{{ l.id }}</td>
+                       <td>{{ l.name }}</td>
+                       <td>{{ l.date_create }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_block %}
+{% endblock %}
+

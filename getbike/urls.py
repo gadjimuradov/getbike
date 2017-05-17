@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^$', views.HomeView.as_view(), name='home'),
     url(r'^catalog/', include('catalog.urls')),
     url(r'^booking/', include('booking.urls')),
+    url(r'^crm/', include('crm.urls')),
     url(r'^api/', include('api.urls')),
     url(r'^admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

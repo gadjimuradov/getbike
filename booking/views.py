@@ -5,10 +5,14 @@ from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic.base import View
+from django.template.loader import get_template, render_to_string
+from django.core.mail import EmailMultiAlternatives
+
 
 from basket.models import Basket, Line
 from booking.forms import BookingForm, BookingStepOneForm
 from catalog.models import Category, Product
+from order.models import Order
 
 
 class BookingPreValidate(View):
@@ -131,6 +135,17 @@ class BookingComplectView(View):
 class BookingPaymentView(View):
     template_name = 'booking/booking_payment.html'
 
+    def send_mail_for_user(self, order):
+        ctx = dict()
+        ctx['order'] = order
+        to = order.user.email
+        subject, from_email = 'Ваш заказ с сайта', 'no-reply@velos.ru'
+        text_content = render_to_string('mail/order_mail_detail.txt',ctx)
+        html_content = get_template('mail/order_mail_detail.html').render(ctx)
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
     def get(self, request, *args, **kwargs):
         ctx = dict()
         phone = request.COOKIES.get('phone')
@@ -143,9 +158,22 @@ class BookingPaymentView(View):
     def post(self, request, *args, **kwargs):
         print(request.POST)
         ctx = dict()
+        email = request.POST.get('email')
+
         basket_id = request.session.get('basket')
         if basket_id:
             basket = Basket.objects.filter(id=basket_id).first()
             ctx['basket'] = basket
+            if email:
+                order = Order()
+                order.take_date = basket.date_take
+
 
         return render(request, self.template_name, ctx)
+
+
+class BookingThankYouView(View):
+    template_name = 'booking/booking_thank_you.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template)

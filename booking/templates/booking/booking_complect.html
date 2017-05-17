@@ -70,7 +70,7 @@
                                     <div class="panel-heading active" role="tab">
                                         <h4 class="panel-title">
                                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                                               href="#collapse1"><span class="fa fa-minus-circle"></span></a>
+                                               href="#collapse1"><span class="fa fa-minus-circle"></span>{{ line.product }}</a>
                                         </h4>
                                         <i class="product-remove"
                                            style="float: right;margin-top: -20px; cursor: pointer;">Удалить</i>
@@ -80,8 +80,8 @@
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label for="">Имя</label>
-                                                    <input type="text" name="line" class="form-control" value="{{ line.pk }}">
-                                                    <input type="text" name="product" class="form-control" value="{{ line.product.pk }}">
+                                                    <input type="hidden" name="line" class="form-control" value="{{ line.pk }}">
+                                                    <input type="hidden" name="product" class="form-control" value="{{ line.product.pk }}">
                                                     <input type="text" class="form-control" name="userName" value="{{ line.fio }}">
                                                 </div>
                                             </div>
