@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block content %}
+    <div id="page-title" class="image-bg">
+    <div class="container text-center">
+				<div class="title-content">
+					<h1>Снаряжение</h1>
+				</div>
+			</div>
+    </div>
+    <div id="shortcode-wrapper" style="padding: 10px;">
+    <div class="container">
+    <div class="shortcode">
+                    {% for p in products %}
+                        <div class="col-sm-4  {{ p.category.slug }}" style="margin-top: 20px;">
+                            <div class="architect-image">
+                                <a href="{{ p.img.url }}" class="image-link">
+                                    {% thumbnail p.img '400x300' crop="center" as img %}
+                                        <img class="img-responsive" src="{{ img.url }}" alt=""/></a>
+                                    {% endthumbnail %}
+                            </div>
+                            <div class="architect-info">
+                                <h3><a href="{% url 'catalog:product-detail' p.pk %}">{{ p }}</a></h3>
+                                <h4>{{ p.category }}</h4>
+                                <div class="socials">
+                                    <ul class="list-inline social-icons">
+                                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+    </div>
+    </div>
+    </div>
+{% endblock %}

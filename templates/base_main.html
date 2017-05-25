@@ -44,50 +44,7 @@
 <body id="home-three">
 <header id="navigation">
     <div class="navbar navbar-fixed-top" role="banner">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                <a class="navbar-brand" href="index.html">
-                    <img class="main-logo img-responsive"
-                         src="https://themeregion.com/demo/arki/default-images/logo.png" alt="">
-                    <img class="logo-two img-responsive" src="images/logo2.png" alt="">
-                </a>
-
-            </div>
-            <div class="top-bar">
-                <ul class="list-inline social-icons">
-                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                    <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                    <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                </ul>
-            </div>
-            <nav id="main-menu" class="collapse navbar-collapse navbar-right">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Главная</a></li>
-                    <li><a href="#">О нас </a></li>
-                    <li><a href="#">Наш блог</a></li>
-                    <li><a href="#">Контакты</a></li>
-                </ul>
-            </nav>
-            <div class="search-icon">
-                <span><i class="fa fa-search"></i></span>
-            </div>
-        </div>
-        <div class="search">
-            <form role="form">
-                <input type="text" class="search-form" autocomplete="off" placeholder="Write something and press enter">
-                <span class="search-close"><i class="fa fa-times"></i></span>
-            </form>
-        </div>
+        {% include 'header.html' %}
     </div>
 </header><!--/#navigation-->
 

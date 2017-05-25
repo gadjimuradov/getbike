@@ -24,8 +24,8 @@
 				<div class="container">
 					<div class="home-content text-center">
 						<h1 id="typer">Inroducing The World's Best</h1>
-						<h2>Architecture</h2>
-						<a href="#" class="btn btn-primary btn-animated">Lets Start</a>
+						<h2>Дайте два</h2>
+						<a href="#" class="btn btn-primary btn-animated">Поехали</a>
 						<div class="scroll-arrow">
 							<div class="arrow-icon">
 								<a class="animated" href="#"><i class="fa fa-angle-down"></i></a>
@@ -37,9 +37,9 @@
 			<div class="item item-two" style="background-image:url({% static 'img/getbike/slide2.jpg' %})">
 				<div class="container">
 					<div class="home-content">
-						<h1>World's The Best</h1>
+						<h1>Хотите вдохнуть новые эмоции ?</h1>
 						<h2>SAP</h2>
-						<a href="#" class="btn btn-primary btn-animated">Lets Start</a>
+						<a href="#" class="btn btn-primary btn-animated">Попробуйте</a>
 					</div>
 				</div>
 			</div>
@@ -49,8 +49,8 @@
 						<div class="row">
 							<div class="col-md-8 col-sm-6">
 								<div class="home-content">
-									<h1>Build Your</h1>
-									<h2>Dream with US</h2>
+									<h1>Делитесь впечатлениями</h1>
+									<h2></h2>
 								</div>
 							</div>
 							<div class="col-md-4 col-sm-6">
@@ -151,21 +151,20 @@
                     {% for c in categories %}
                         <li><a href="#" data-filter=".{{ c.slug }}">{{ c }}</a></li>
                     {% endfor %}
-                </ul
+                </ul>
             </div>
 
             <div id="all-architect">
-                <div class="row">
+                    <div class="row">
                     {% for p in products %}
-
-                        <div class="col-sm-4 architect {{ p.category.slug }}">
+                        <div class="col-sm-4 architect {{ p.category.slug }}" style="margin-top: 20px;">
                             <div class="architect-image">
                                 <a href="{{ p.img.url }}" class="image-link">
                                     {% thumbnail p.img '400x300' crop="center" as img %}
                                         <img class="img-responsive" src="{{ img.url }}" alt=""/></a>
                                     {% endthumbnail %}
                             </div>
-                            <div class="architect-info" style="border:1px solid #000;">
+                            <div class="architect-info">
                                 <h3><a href="{% url 'catalog:product-detail' p.pk %}">{{ p }}</a></h3>
                                 <h4>{{ p.category }}</h4>
                                 <div class="socials">
@@ -178,10 +177,10 @@
                             </div>
                         </div>
                     {% endfor %}
-                </div>
-            </div>
+                    </div>
+
         </div>
-    </div>
+        </div></div>
 
     <div id="twitter" class="padding">
         <div class="overlay-bg"></div>
@@ -193,22 +192,14 @@
                 <ol class="carousel-indicators">
                     <li data-target="#twitter-carousel" data-slide-to="0" class="active"></li>
                     <li data-target="#twitter-carousel" data-slide-to="1"></li>
-                    <li data-target="#twitter-carousel" data-slide-to="2"></li>
                 </ol>
                 <div class="carousel-inner">
                     <div class="item active">
-                        <p>Amis de Bruxelles, de Woluwé, de Namur, de partout... pour les fêtes de fin d'année, nous ne
-                            pouvons que vous...</p>
+                        <p>Заказал снаряжение через сайт.Привезли через час.</p>
                         <a href="#">https://t.co/7FoVSP0vIf</a>
                     </div>
                     <div class="item">
-                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum
-                            est notare quam ...</p>
-                        <a href="#">https://t.co/7FoVSP0vIf</a>
-                    </div>
-                    <div class="item">
-                        <p>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem.
-                            Investigationes...</p>
+                        <p>Супер эмоции</p>
                         <a href="#">https://t.co/7FoVSP0vIf</a>
                     </div>
                 </div>
@@ -216,32 +207,7 @@
         </div>
     </div><!--/twitter-->
 
-    <div id="clients" class="padding">
-        <div class="container">
-            <div class="row">
-                <div class="text-center section-title">
-                    <h1>Нам доверяют</h1>
-                    <h2>Наши счастливые клиенты</h2>
-                </div>
-            </div>
-            <div class="clients text-center">
-                <ul class="list-inline">
-                    <li><a href="#"><img class="img-responsive"
-                                         src="https://themeregion.com/demo/arki/default-images/others/client1.png"
-                                         alt=""/></a></li>
-                    <li><a href="#"><img class="img-responsive"
-                                         src="https://themeregion.com/demo/arki/default-images/others/client2.png"
-                                         alt=""/></a></li>
-                    <li><a href="#"><img class="img-responsive"
-                                         src="https://themeregion.com/demo/arki/default-images/others/client3.png"
-                                         alt=""/></a></li>
-                    <li><a href="#"><img class="img-responsive"
-                                         src="https://themeregion.com/demo/arki/default-images/others/client4.png"
-                                         alt=""/></a></li>
-                </ul>
-            </div>
-        </div>
-    </div><!--/Clients-->
+
 
     <div id="promotion" class="padding">
         <div class="container text-center">

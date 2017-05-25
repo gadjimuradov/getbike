@@ -714,23 +714,31 @@ textarea.form-control {
 }
 
 /*----search----*/
-#navigation .search-icon {
+#navigation .search-icon  {
 	position: absolute;
 	right: 0px;
 	top: 60px;
 }
 
-#navigation  .navbar-fixed-top .search-icon, 
+
+#navigation  .navbar-fixed-top .phone-number,
+#page #navigation  .navbar .phone-number {
+	top:25px;
+	right:10px;
+	position: absolute;
+}
+
+#navigation  .navbar-fixed-top .search-icon,
 #page #navigation  .navbar .search-icon {
 	top:25px;
 	right:170px;
 }
 
-#navigation .search-icon span {
+#navigation .search-icon span, #navigation .phone-number span {
 	margin:0 9px;
 }
 
-#navigation .search-icon span i {
+#navigation .search-icon span i , #navigation .phone-number span i{
 	color:#fff;
 	cursor:pointer;
 	-webkit-transition: all 0.3s ease-in-out;
@@ -740,8 +748,13 @@ textarea.form-control {
 	transition: all 0.3s ease-in-out;
 }
 
+#navigation .search-icon span i , #navigation .phone-number span i {
+	color: #000;
+}
 #navigation  .navbar-fixed-top .search-icon span i, 
-#page #navigation  .navbar .search-icon span i  {
+#navigation  .navbar-fixed-top .phone-number span i,
+#page #navigation  .navbar .search-icon span i,
+#page #navigation  .navbar .phone-number span i{
 	color:#000;
 }
 
@@ -2045,6 +2058,13 @@ textarea.form-control {
 	-o-transition: all 0.5s ease-in-out;
 	transition: all 0.5s ease-in-out;	
 	position:relative;
+	-webkit-box-shadow: 0px 1px 2px 1px #d1d1d1;
+    box-shadow: 0px 1px 2px 1px #d1d1d1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .team-hero:before, 
@@ -3358,3 +3378,5 @@ img.mfp-img {
 	text-transform:uppercase;
 	background-color:#ed1c24;
 }
+
+
