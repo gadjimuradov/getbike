@@ -15,7 +15,6 @@ class Page(models.Model):
         verbose_name_plural = 'Страницы'
 
 
-
 class HappyClient(models.Model):
     img = models.ImageField(upload_to='common/happy_clients/')
     description = models.TextField(blank=True, null=True)
@@ -26,6 +25,22 @@ class HappyClient(models.Model):
     class Meta:
         verbose_name = 'Счастливый клиент'
         verbose_name_plural = 'Счастливые клиенты'
+
+
+class MainSlider(models.Model):
+    h1_title = models.CharField(max_length=255, blank=True, null=True)
+    h2_title = models.CharField(max_length=255, blank=True, null=True)
+    action_title = models.CharField(max_length=100, blank=True, null=True)
+    img = models.ImageField(upload_to='common/sliders/')
+    position = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.h1_title if self.h1_title else str(self.pk)
+
+    class Meta:
+        ordering = ('position',)
+        verbose_name = 'Слайдер на главной странице'
+        verbose_name_plural = 'Слайдер на главной странице'
 
 
 class MainSettings(models.Model):
