@@ -42,6 +42,7 @@ class ProductImage(models.Model):
         verbose_name = 'Изображение'
         verbose_name_plural = 'Изображения'
 
+
 class TypeProduct(models.Model):
     name = models.CharField(max_length=200)
 
