@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block content %}
+    <div id="page-title" class="image-bg">
+        <div class="container text-center">
+				<div class="title-content">
+					<h1>Фото с прошлого сезона</h1>
+				</div>
+			</div>
+    </div>
+    <div id="shortcode-wrapper" style="padding: 10px;">
+    <div class="container">
+    <div class="shortcode">
+        <div class="row">
+            {% for hc in happy_clients %}
+            <div class="col-sm-4">
+                <div class="entry-content">
+                    <a class="entry-thumb" href="#">
+                        {% thumbnail hc.img '360x240' crop="center" as img %}
+                        <img class="img-responsive" src="{{ img.url }}" alt=""></a>
+                        {% endthumbnail %}
+                </div>
+            </div>
+                {% if forloop.counter|divisibleby:3 %} </div><div class="row"> <hr>{% endif %}
+			{% endfor %}
+        </div>
+
+
+    </div>
+    </div>
+    </div>
+{% endblock %}

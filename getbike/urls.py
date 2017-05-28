@@ -24,6 +24,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.HomeView.as_view(), name='home'),
     url(r'^catalog/', include('catalog.urls')),
+    url(r'^happy-clients/', views.HappyClientsView.as_view(), name='happy_clients'),
     url(r'^booking/', include('booking.urls')),
     url(r'^crm/', include('crm.urls')),
     url(r'^api/', include('api.urls')),

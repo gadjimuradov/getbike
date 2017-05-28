@@ -7,7 +7,7 @@
         <div class="container text-center">
             <div class="title-content">
                 <h1>{{ object }}</h1>
-                <p>{{ object.description }}</p>
+                <p>{{ object.description|default_if_none:''|safe }}</p>
             </div>
         </div>
     </div>
@@ -21,6 +21,13 @@
                                 <img class="img-responsive"
                                      src="{{ object.img.url }}" alt="">
                             </div>
+                            {% for curr_img in object.images.all %}
+                            <div class="item">
+                                <img class="img-responsive"
+                                     src="{{ curr_img.img.url }}" alt="">
+                            </div>
+                            {% endfor %}
+
                         </div>
                         <ol class="project-indicators">
                             <li data-target="#project-carousel" data-slide-to="0" class="active">
@@ -29,6 +36,14 @@
                                      src="{{ img.url }}" alt="">
                                 {% endthumbnail %}
                             </li>
+                            {% for curr_img in object.images.all %}
+                            <li data-target="#project-carousel" data-slide-to="{{ forloop.counter }}">
+                                {% thumbnail curr_img.img '400x300' crop="center" as img %}
+                                <img class="img-responsive"
+                                     src="{{ img.url }}" alt="">
+                                {% endthumbnail %}
+                            </li>
+                            {% endfor %}
 
                         </ol>
                     </div>
@@ -36,9 +51,7 @@
                 <div class="col-sm-6">
                     <div class="project-info">
                         <h2>{{ object }}</h2>
-                        <p>Labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                            voluptate velit esse cillum dolore.</p>
+                        <p>{{ object.description|default_if_none:''|safe }}</p>
 
                     </div>
                 </div>

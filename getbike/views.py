@@ -1,4 +1,5 @@
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, View
+from django.shortcuts import render
 
 from catalog.models import Product, Category
 from booking.forms import BookingForm
@@ -11,11 +12,20 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         form = BookingForm()
         ctx = super().get_context_data(**kwargs)
-        products = Product.objects.all()
+        products = Product.objects.all()[:6]
         categories = Category.objects.all()
-        happy_clients = HappyClient.objects.all()
+        happy_clients = HappyClient.objects.all()[:4]
         ctx['products'] = products
         ctx['form'] = form
         ctx['categories'] = categories
         ctx['happy_clients'] = happy_clients
         return ctx
+
+
+class HappyClientsView(View):
+    template_name = 'happy_clients.html'
+
+    def get(self, request, *args, **kwargs):
+        ctx = dict()
+        ctx['happy_clients'] = HappyClient.objects.all()
+        return render(request,self.template_name,ctx)

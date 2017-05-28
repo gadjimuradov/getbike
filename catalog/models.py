@@ -21,6 +21,8 @@ class Product(models.Model):
     img = models.ImageField(upload_to='products/')
     price = models.DecimalField(max_digits=10,decimal_places=2)
     category = models.ForeignKey(Category, related_name='products')
+    description = models.TextField(blank=True, null=True)
+    date_created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.name
