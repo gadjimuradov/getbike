@@ -12,7 +12,7 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         form = BookingForm()
         ctx = super().get_context_data(**kwargs)
-        products = Product.objects.all()[:6]
+        products = Product.objects.order_by('-id')[:6]
         categories = Category.objects.all()
         happy_clients = HappyClient.objects.all()[:4]
         ctx['products'] = products
