@@ -81,7 +81,7 @@ class BookingComplectView(View):
             basket = Basket.objects.filter(id=basket_id).first()
             ctx['basket'] = basket
         categories = Category.objects.all()
-        products = Product.objects.all()
+        products = Product.objects.order_by('position')
 
         ctx['categories'] = categories
         ctx['products'] = products
