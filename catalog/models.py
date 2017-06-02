@@ -23,6 +23,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products')
     description = models.TextField(blank=True, null=True)
     date_created = models.DateTimeField(default=timezone.now)
+    position = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name

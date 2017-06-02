@@ -135,7 +135,7 @@
                                     {% endthumbnail %}
                             </div>
                             <div class="architect-info">
-                                <h3><a href="{% url 'catalog:product-detail' p.pk %}">{{ p }}</a></h3>
+                                <h3 style="font-size: 15px;"><a href="{% url 'catalog:product-detail' p.pk %}">{{ p }}</a></h3>
                                     <div class="product-price"
                                          style="text-align: center;">{{ p.price|floatformat:0|intcomma }} Р
                                     </div>
