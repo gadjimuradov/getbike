@@ -16,9 +16,9 @@
 </div>
 <hr>
 <i class="fa fa-truck"></i>
-<span id="hotelPlace">{{ basket.hotel }}</span>
+<span id="hotelPlace">{{ basket.hotel|default_if_none:'' }}</span>
 </div>
 <div class="panel-cart" style="padding: 10px;margin-top: 10px;">
-    Итого <span id="order-total" style="float: right;">{{ basket.total_sum|floatformat:0|intcomma }} Р</span>
+    Итого <span id="order-total" style="float: right;">{{ basket.total_sum|floatformat:0|intcomma|default_if_none:0 }} Р</span>
 </div>
 </div>
