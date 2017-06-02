@@ -114,22 +114,28 @@
                         </div>
                     </form>
                     <h2>Я хочу</h2>
-
-                    {% for c in categories %}
-                        <button type="button" class="btn btn-warning btn-lg">{{ c }}</button>
-                    {% endfor %}
-
                     <hr>
                     <div class="row">
-                        {% for p in products %}
-                            <div class="col-sm-4">
-                                <div class="entry-content">
-                                    <a class="entry-thumb" href="#">
-                                        {% thumbnail p.img '262x262' crop="center" as img %}
-                                            <img class="img-responsive" src="{{ img.url }}" alt="">
-                                        {% endthumbnail %}
-                                    </a>
-                                    <h5 style="text-align: center;">{{ p }}</h5>
+                        <div class="architect-filter text-center">
+                <ul class="list-inline">
+                    {% for c in categories %}
+                        <li><a href="#" data-filter=".{{ c.slug }}">{{ c }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div id="all-architect">
+                    <div class="row">
+                    {% for p in products %}
+                        <div class="col-sm-4 architect {{ p.category.slug }}" style="margin-top: 20px;">
+                            <div class="architect-image">
+                                <a href="{{ p.img.url }}" class="image-link">
+                                    {% thumbnail p.img '400x300' crop="center" as img %}
+                                        <img class="img-responsive" src="{{ img.url }}" alt=""/></a>
+                                    {% endthumbnail %}
+                            </div>
+                            <div class="architect-info">
+                                <h3><a href="{% url 'catalog:product-detail' p.pk %}">{{ p }}</a></h3>
                                     <div class="product-price"
                                          style="text-align: center;">{{ p.price|floatformat:0|intcomma }} Р
                                     </div>
@@ -142,10 +148,13 @@
                                         </a>
                                     </div>
 
-
-                                </div>
                             </div>
-                        {% endfor %}
+                        </div>
+                    {% endfor %}
+                    </div>
+
+            </div>
+
                     </div>
 
                     <div style="text-align: center; margin-top: 20px;">
