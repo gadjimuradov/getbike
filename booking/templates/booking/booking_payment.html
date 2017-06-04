@@ -17,10 +17,16 @@
                 <div class="col-md-9">
                     <h2>Оплата Шаг 3</h2>
                     <h3>Все готово! Проверьте ваш заказ</h3>
-                    <form id="payment-form" method="post"> {% csrf_token %}
+                    <form id="yandex-send" action="{{ YANDEX_MONEY.url }}" method="post">
+
                     <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                            <input type="text" value="100.00" name="sum" id="totalOrderSum">
+                            <input type='text' name='shopId' value='138527'>
+                            <input type='text' name='scid' value='554280'>
+                            <input name="customerNumber" value="{{ basket.user.pk }}" type="text">
+                            <input id="basketNumberId" name="orderNumber" value="{{ request.basket.basket_number }}" type="text">
                             <label>Email</label>
                             <input type="text" class="form-control" name="email">
                         </div>

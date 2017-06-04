@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views.generic.base import View
 from django.template.loader import get_template, render_to_string
 from django.core.mail import EmailMultiAlternatives
-
+from django.conf import settings
 
 from basket.models import Basket, Line
 from booking.forms import BookingForm, BookingStepOneForm
@@ -148,6 +148,8 @@ class BookingPaymentView(View):
 
     def get(self, request, *args, **kwargs):
         ctx = dict()
+        ctx['YANDEX_MONEY'] = settings.YANDEX_MONEY
+        print(settings.YANDEX_MONEY)
         phone = request.COOKIES.get('phone')
         basket_id = request.session.get('basket')
         if basket_id:
