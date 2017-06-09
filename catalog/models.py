@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from tinymce.models import HTMLField
 from users.models import User
 
 
@@ -23,7 +24,7 @@ class Product(models.Model):
     img = models.ImageField(upload_to='products/')
     price = models.DecimalField(max_digits=10,decimal_places=2)
     category = models.ForeignKey(Category, related_name='products')
-    description = models.TextField(blank=True, null=True)
+    description = HTMLField()
     date_created = models.DateTimeField(default=timezone.now)
     position = models.PositiveIntegerField(default=0)
 

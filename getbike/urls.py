@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^booking/', include('booking.urls')),
     url(r'^crm/', include('crm.urls')),
     url(r'^api/', include('api.urls')),
+    url(r'^tinymce/', include('tinymce.urls')),
     url(r'^admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
