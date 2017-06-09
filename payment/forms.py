@@ -42,7 +42,7 @@ class PaymentAvisoForm(forms.Form):
 
 
 class BaseShopIdForm(forms.Form):
-    shopId = forms.IntegerField(initial=settings.YANDEX_MONEY_SHOP_ID, widget=forms.TextInput(
+    shopId = forms.IntegerField(initial=settings.YANDEX_SHOP_ID, widget=forms.TextInput(
         attrs=dict(readonly='readonly')))
 
     def clean_shopId(self):
