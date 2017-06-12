@@ -193,7 +193,7 @@
                 complectBlock.find('.panel-title a').html(productName);
                 var productInner = $('#product-inner');
                 var productId = $(this).attr('data-id');
-                alert(productId);
+
                 var productItem = '<div class="complect_prod_item" data-price="'+ priceProduct +'" id="complect_prod_'+ productId +'"><span>' + productName + '</span>   <span>' + priceProduct + '</span></div>';
                 $(productItem).appendTo(productInner);
                 complectBlock.find('input[name=product]').val(productId);

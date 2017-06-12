@@ -15,6 +15,7 @@ from django.template.loader import get_template, render_to_string
 from django.core.mail import EmailMultiAlternatives
 
 from users.models import User
+from basket.models import Basket
 from .forms import CheckOrderForm, PaymentAvisoForm, BaseShopIdForm
 from .models import Payment
 
@@ -85,12 +86,15 @@ class PaymentAvisoView(CheckMd5,View):
     def send_mail_for_user(self,email):
         ctx = dict()
         to = email
-        subject, from_email = 'Ваш заказ с сайта', 'no-reply@velos.ru'
+        subject, from_email = 'Ваш заказ с сайта', 'no-reply@givetwo.me'
         text_content = render_to_string('mail/order_mail_detail.txt',ctx)
         html_content = get_template('mail/order_mail_detail.html').render(ctx)
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         msg.send()
+
+    def create_new_user(self,email, phone):
+        pass
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -109,9 +113,27 @@ class PaymentAvisoView(CheckMd5,View):
             order_sum_amount= form.data.get('orderSumAmount')
             email = form.data.get('email')
             self.send_mail_for_user(email)
+            user_info = User.objects.filter(email=email)
+            basket = Basket.objects.filter(id=order_number).first()
+            if not user_info:
+                new_user = User()
+                new_user.email = email
+                new_user.phone = basket.phone
+                password = User.objects.make_random_password(length=15)
+                new_user.set_password(password)
+                new_user.save()
+                user_pk = new_user.pk
+            else:
+                user_pk = user_info.first().pk
+
+            basket.status = Basket.SUBMITTED
+            basket.save()
 
             payment = Payment()
-
+            payment.order_number= basket.pk
+            payment.invoice_id = user_pk
+            payment.order_amount = order_sum_amount
+            payment.save()
 
             res = """<?xml version="1.0" encoding="utf-8"?>
                 <paymentAvisoResponse
