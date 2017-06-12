@@ -82,9 +82,8 @@ class CheckOrderView(CheckMd5, View):
 class PaymentAvisoView(CheckMd5,View):
     form_class = PaymentAvisoForm
 
-    def send_mail_for_user(self, order, email):
+    def send_mail_for_user(self,email):
         ctx = dict()
-        ctx['order'] = order
         to = email
         subject, from_email = 'Ваш заказ с сайта', 'no-reply@velos.ru'
         text_content = render_to_string('mail/order_mail_detail.txt',ctx)
@@ -109,6 +108,7 @@ class PaymentAvisoView(CheckMd5,View):
             order_number = form.data.get('orderNumber')
             order_sum_amount= form.data.get('orderSumAmount')
             email = form.data.get('email')
+            self.send_mail_for_user(email)
 
             payment = Payment()
 
