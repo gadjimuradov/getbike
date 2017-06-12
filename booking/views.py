@@ -90,8 +90,6 @@ class BookingComplectView(View):
 
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            print(request.POST)
-            print(request.session)
             basket_id = request.session.get('basket')
             basket = Basket.objects.filter(id=basket_id).first()
             user_names = request.POST.getlist('userName')
@@ -129,6 +127,16 @@ class BookingComplectView(View):
                 total_sum += l.price
             basket.total_sum = total_sum
             basket.save()
+            return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+class LineRemoveView(View):
+
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            line_pk = request.POST.get('line_pk')
+            Line.objects.filter(id=line_pk).delete()
+            data = {'status': 'ok'}
             return HttpResponse(json.dumps(data), content_type='application/json')
 
 

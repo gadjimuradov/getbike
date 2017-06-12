@@ -83,8 +83,10 @@ class CheckOrderView(CheckMd5, View):
 class PaymentAvisoView(CheckMd5,View):
     form_class = PaymentAvisoForm
 
-    def send_mail_for_user(self,email):
+    def send_mail_for_user(self,email, complects, order_sum_amount):
         ctx = dict()
+        ctx['complects'] = complects
+        ctx['order_sum_amount'] = order_sum_amount
         to = email
         subject, from_email = 'Ваш заказ с сайта', 'no-reply@givetwo.me'
         text_content = render_to_string('mail/order_mail_detail.txt',ctx)
@@ -112,7 +114,7 @@ class PaymentAvisoView(CheckMd5,View):
             order_number = form.data.get('orderNumber')
             order_sum_amount= form.data.get('orderSumAmount')
             email = form.data.get('email')
-            self.send_mail_for_user(email)
+
             user_info = User.objects.filter(email=email)
             basket = Basket.objects.filter(id=order_number).first()
             if not user_info:
@@ -128,6 +130,15 @@ class PaymentAvisoView(CheckMd5,View):
 
             basket.status = Basket.SUBMITTED
             basket.save()
+
+            complects = ''
+            for line in basket.lines.all():
+                complects += str(line.product.name) + ','
+
+            if complects:
+                complects = complects[:-1]
+
+            self.send_mail_for_user(email, complects, order_sum_amount)
 
             payment = Payment()
             payment.order_number= basket.pk
