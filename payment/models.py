@@ -57,6 +57,9 @@ class Payment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     performed_datetime = models.DateTimeField('Обработан', blank=True, null=True)
 
+    def __str__(self):
+        return 'Заказ номер {0}'.format(str(self.order_number))
+
     class Meta:
         ordering = ('-created', )
         verbose_name = 'платеж'

@@ -133,6 +133,8 @@ class PaymentAvisoView(CheckMd5,View):
             payment.order_number= basket.pk
             payment.invoice_id = user_pk
             payment.order_amount = order_sum_amount
+            payment.status = Payment.STATUS.SUCCESS
+            payment.performed_datetime = timezone.now()
             payment.save()
 
             res = """<?xml version="1.0" encoding="utf-8"?>
