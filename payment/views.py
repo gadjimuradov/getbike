@@ -11,6 +11,8 @@ from django.views.generic.base import View
 from django.contrib.auth.models import Group
 from django.core.urlresolvers import reverse_lazy
 from django.core.mail import send_mail, BadHeaderError
+from django.template.loader import get_template, render_to_string
+from django.core.mail import EmailMultiAlternatives
 
 from users.models import User
 from .forms import CheckOrderForm, PaymentAvisoForm, BaseShopIdForm
@@ -80,6 +82,17 @@ class CheckOrderView(CheckMd5, View):
 class PaymentAvisoView(CheckMd5,View):
     form_class = PaymentAvisoForm
 
+    def send_mail_for_user(self, order, email):
+        ctx = dict()
+        ctx['order'] = order
+        to = email
+        subject, from_email = 'Ваш заказ с сайта', 'no-reply@velos.ru'
+        text_content = render_to_string('mail/order_mail_detail.txt',ctx)
+        html_content = get_template('mail/order_mail_detail.html').render(ctx)
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -96,8 +109,6 @@ class PaymentAvisoView(CheckMd5,View):
             order_number = form.data.get('orderNumber')
             order_sum_amount= form.data.get('orderSumAmount')
             email = form.data.get('email')
-            print(email)
-            print(user_id)
 
             payment = Payment()
 

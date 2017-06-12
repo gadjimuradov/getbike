@@ -135,17 +135,6 @@ class BookingComplectView(View):
 class BookingPaymentView(View):
     template_name = 'booking/booking_payment.html'
 
-    def send_mail_for_user(self, order):
-        ctx = dict()
-        ctx['order'] = order
-        to = order.user.email
-        subject, from_email = 'Ваш заказ с сайта', 'no-reply@velos.ru'
-        text_content = render_to_string('mail/order_mail_detail.txt',ctx)
-        html_content = get_template('mail/order_mail_detail.html').render(ctx)
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
-
     def get(self, request, *args, **kwargs):
         ctx = dict()
         ctx['YANDEX_MONEY'] = settings.YANDEX_MONEY
