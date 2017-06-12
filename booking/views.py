@@ -161,7 +161,6 @@ class BookingPaymentView(View):
         print(request.POST)
         ctx = dict()
         email = request.POST.get('email')
-
         basket_id = request.session.get('basket')
         if basket_id:
             basket = Basket.objects.filter(id=basket_id).first()

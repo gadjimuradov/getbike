@@ -22,11 +22,11 @@
                     <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="hidden" value="{{ basket.total_sum|floatformat:0|intcomma }}" name="sum" id="totalOrderSum">
+                            <input type="hidden" value="{{ basket.total_sum|floatformat:0}}" name="sum" id="totalOrderSum">
                             <input type='hidden' name='shopId' value='{{ YANDEX_MONEY.shop_id}}'>
                             <input type='hidden' name='scid' value='{{ YANDEX_MONEY.scid}}'>
-                            <input name="customerNumber" value="{{ basket.user.pk }}" type="hidden">
-                            <input id="basketNumberId" name="orderNumber" value="{{ request.basket.basket_number }}" type="hidden">
+                            <input name="customerNumber" value="{{ basket.phone }}" type="hidden">
+                            <input id="basketNumberId" name="orderNumber" value="{{ basket.pk }}" type="hidden">
                             <label>Email</label>
                             <input type="text" class="form-control" name="email">
                         </div>

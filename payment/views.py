@@ -95,6 +95,9 @@ class PaymentAvisoView(CheckMd5,View):
             user_id = form.data.get('customerNumber')
             order_number = form.data.get('orderNumber')
             order_sum_amount= form.data.get('orderSumAmount')
+            email = form.data.get('email')
+            print(email)
+            print(user_id)
 
             payment = Payment()
 
