@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^$', views.HomeView.as_view(), name='home'),
     url(r'^catalog/', include('catalog.urls')),
     url(r'^happy-clients/', views.HappyClientsView.as_view(), name='happy_clients'),
+    url(r'^send_mail/', views.SendMailView.as_view(), name='send_mail'),
     url(r'^booking/', include('booking.urls')),
     url(r'^crm/', include('crm.urls')),
     url(r'^api/', include('api.urls')),
