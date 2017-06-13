@@ -1,5 +1,6 @@
 from django.views.generic.base import TemplateView, View
 from django.shortcuts import render
+from django.http import HttpResponse
 
 from catalog.models import Product, Category
 from booking.forms import BookingForm
@@ -45,3 +46,4 @@ class SendMailView(View):
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         msg.send()
+        return HttpResponse("Отправили письмо на" + to)
