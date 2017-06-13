@@ -9,6 +9,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True, null=True)
     position = models.PositiveIntegerField(default=0)
+    show = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -27,11 +28,13 @@ class Product(models.Model):
     description = HTMLField()
     date_created = models.DateTimeField(default=timezone.now)
     position = models.PositiveIntegerField(default=0)
+    show = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
 
     class Meta:
+        ordering = ('position',)
         verbose_name = 'Комплект'
         verbose_name_plural = 'Комплекты'
 

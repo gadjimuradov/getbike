@@ -11,7 +11,7 @@ class IndexView(View):
     def get(self, request, *args, **kwargs):
         ctx = dict()
         categories = Category.objects.all()
-        products = Product.objects.all()
+        products = Product.objects.filter(show=True)
         ctx['products'] = products
         ctx['categories'] = categories
         return render(request, self.template_name, ctx)
