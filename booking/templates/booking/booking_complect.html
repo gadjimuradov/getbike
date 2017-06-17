@@ -71,7 +71,7 @@
                                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                                href="#collapse1"><span class="fa fa-minus-circle"></span>{{ line.product }}</a>
                                         </h4>
-                                        <i class="product-remove"
+                                        <i class="product-remove" data-line="{{ line.pk }}"
                                            style="float: right;margin-top: -20px; cursor: pointer;">Удалить</i>
                                     </div>
                                     <div id="collapse1" class="panel-collapse collapse in">
@@ -204,6 +204,29 @@
 
             $("body").on('click', '.product-remove', function () {
                 var productId = $(this).attr('data-product-id');
+                var lineId = $(this).attr('data-line');
+                console.log(typeof lineId);
+                console.log(lineId);
+                if (lineId){
+                    lineId = parseInt(lineId);
+                    $.ajax({
+                        url: '/booking/line/remove/',
+                        type: 'POST',
+                        beforeSend: function (jqXHR, settings) {
+                            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                            jqXHR.setRequestHeader("x-csrftoken", csrfToken);
+                        },
+                        dataType: 'json',
+                        data: {line_pk: lineId},
+                    }).done(function (data) {
+                        console.log(data);
+                        var sum = calculateSum();
+                        $('#order-total').html(sum + ' Р');
+                    }).fail(function (e, data) {
+                        console.log(e);
+                        console.log(data);
+                    });
+                }
                 $(this).parent().parent().remove();
                 $('#complect_prod_' + productId).remove();
                 var sum = calculateSum();

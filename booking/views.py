@@ -9,6 +9,7 @@ from django.template.loader import get_template, render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 
+from common.models import Page
 from basket.models import Basket, Line
 from booking.forms import BookingForm, BookingStepOneForm
 from catalog.models import Category, Product
@@ -135,7 +136,11 @@ class LineRemoveView(View):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
             line_pk = request.POST.get('line_pk')
-            Line.objects.filter(id=line_pk).delete()
+            line = Line.objects.filter(id=line_pk).first()
+            basket = line.basket
+            line.delete()
+            basket.total_sum = basket.get_total_sum()
+            basket.save()
             data = {'status': 'ok'}
             return HttpResponse(json.dumps(data), content_type='application/json')
 
@@ -149,6 +154,8 @@ class BookingPaymentView(View):
         print(settings.YANDEX_MONEY)
         phone = request.COOKIES.get('phone')
         basket_id = request.session.get('basket')
+        oferta = Page.objects.filter(slug='oferta').first()
+        ctx['oferta'] = oferta.content if oferta else ''
         if basket_id:
             basket = Basket.objects.filter(id=basket_id).first()
             ctx['basket'] = basket

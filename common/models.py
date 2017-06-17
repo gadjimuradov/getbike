@@ -1,11 +1,12 @@
 from django.db import models
+from tinymce.models import HTMLField
 
 
 class Page(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
     url = models.URLField(blank=True, null=True)
-    content = models.TextField()
+    content = HTMLField()
 
     def __str__(self):
         return self.title

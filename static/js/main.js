@@ -118,16 +118,20 @@ jQuery(function ($) {
 			},		
 			type: 'image' 
 		});
+
 		$('.feature-image .image-link').magnificPopup({
 			gallery: {
 			  enabled: false
 			},		
 			type: 'image' 
 		});
+
 		$('.image-popup').magnificPopup({	
 			type: 'image' 
 		});
+
 		$('.video-link').magnificPopup({type:'iframe'});
+
 	}());
 	
 	

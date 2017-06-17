@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from decimal import Decimal as D
 
 from catalog.models import Product
 from users.models import User
@@ -31,6 +32,12 @@ class Basket(models.Model):
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
+
+    def get_total_sum(self):
+        total_sum = D(0.0)
+        for l in self.lines.all():
+            total_sum += l.price
+        return total_sum
 
 
 class Line(models.Model):
