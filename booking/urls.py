@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^complect/$', views.BookingComplectView.as_view(), name='booking-complect'),
     url(r'^line/remove/$', views.LineRemoveView.as_view(), name='line-remove'),
     url(r'^payment/$', views.BookingPaymentView.as_view(), name='booking-payment'),
+    url(r'^get_size/$', views.GetSizeDataView.as_view(), name='get-size-data'),
 
 ]

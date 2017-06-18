@@ -3422,7 +3422,11 @@ img.mfp-img {
 		text-align: left;
 }
 
-    #modal-background.active, #modal-content.active {
+#modal-background.active, #modal-content.active {
         display: block;
-    }
+}
+
+.size-area{
+	display: none;
+}
 

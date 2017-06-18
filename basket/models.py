@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from decimal import Decimal as D
 
-from catalog.models import Product
+from catalog.models import Product, Size
 from users.models import User
 
 
@@ -54,6 +54,7 @@ class Line(models.Model):
     quantity = models.IntegerField(default=0)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     gender = models.CharField(max_length=20, choices=GENDER_CHOICES, default=MALE)
+    size = models.ForeignKey(Size, null=True, blank=True)
 
     def __str__(self):
         return str(self.pk)

@@ -58,6 +58,13 @@
                                                 <input type="text" class="form-control" name="height">
                                             </div>
                                         </div>
+
+                                        <div class="col-md-4 size-area">
+                                            <label for="">Размер</label>
+                                                <select name="size" class="form-control" id="select-size">
+                                                    <option value="1"></option>
+                                                </select>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -105,6 +112,17 @@
                                                     <input type="text" class="form-control" name="height" value="{{ line.height|floatformat:0 }}">
                                                 </div>
                                             </div>
+
+                                            {% if not line.product.wetsuit == 'default' %}
+                                            <div class="col-md-4 size-area" style="display: block;">
+                                                <label for="">Размер</label>
+                                                    <select name="size" class="form-control" id="select-size">
+                                                        {% for s in line.product.get_size_options %}
+                                                            <option value="{{ s.pk }}" {% if line.product.size_id == s.pk %} selected {% endif %}>{{ s.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                            </div>
+                                            {% endif %}
                                         </div>
                                     </div>
 
@@ -198,8 +216,37 @@
                 $(productItem).appendTo(productInner);
                 complectBlock.find('input[name=product]').val(productId);
                 complectBlock.find('.product-remove').attr('data-product-id',productId);
+                var sizeArea = complectBlock.find('.size-area');
+                $.ajax({
+                        url: '/booking/get_size/',
+                        type: 'POST',
+                        beforeSend: function (jqXHR, settings) {
+                            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                            jqXHR.setRequestHeader("x-csrftoken", csrfToken);
+                        },
+                        dataType: 'json',
+                        data: {product_id: productId},
+                    }).done(function (data) {
+                        console.log(data);
+                        var sizeHtml = '';
+                        if(data.sizes) {
+                            $.each(data.sizes, function (i, v) {
+                                sizeHtml += '<option value="' + v.value + '">' + v.name + '</option>';
+                                sizeArea.show();
+                            });
+                        }else{
+                                sizeHtml += '<option value=""></option>';
+                        }
+                        sizeArea.find('select[name="size"]').html(sizeHtml);
+
+
+                    }).fail(function (e, data) {
+                        console.log(e);
+                        console.log(data);
+                    });
                 var sum = calculateSum();
                 $('#order-total').html(sum + ' Р');
+
             });
 
             $("body").on('click', '.product-remove', function () {

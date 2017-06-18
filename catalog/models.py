@@ -20,7 +20,30 @@ class Category(models.Model):
         verbose_name_plural = 'Категории'
 
 
+class Size(models.Model):
+    MALE, WOMAN = 'male', 'woman'
+    GENDER_CHOICES = (
+        (MALE, 'Мужской'),
+        (WOMAN, 'Женский'),
+    )
+    name = models.CharField(max_length=255)
+    type = models.CharField(max_length=100, choices=GENDER_CHOICES, default=MALE)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Размер'
+        verbose_name_plural = 'Размеры'
+
+
 class Product(models.Model):
+    WOMAN,MALE,DEFAULT = 'woman', 'male', 'default'
+    WETSUIT_CHOICES = (
+        (WOMAN, 'Женский'),
+        (MALE, 'Мужской'),
+        (DEFAULT, 'По умолчанию'),
+    )
     name = models.CharField(max_length=200)
     img = models.ImageField(upload_to='products/')
     price = models.DecimalField(max_digits=10,decimal_places=2)
@@ -29,6 +52,8 @@ class Product(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
     position = models.PositiveIntegerField(default=0)
     show = models.BooleanField(default=True)
+    size = models.ForeignKey(Size, related_name='products_all', null=True, blank=True)
+    wetsuit = models.CharField(max_length=50, choices=WETSUIT_CHOICES, default=DEFAULT)
 
     def __str__(self):
         return self.name
@@ -37,6 +62,10 @@ class Product(models.Model):
         ordering = ('position',)
         verbose_name = 'Комплект'
         verbose_name_plural = 'Комплекты'
+
+    def get_size_options(self):
+        sizes = Size.objects.filter(type=self.wetsuit)
+        return sizes
 
 
 class ProductImage(models.Model):

@@ -12,7 +12,7 @@ from django.conf import settings
 from common.models import Page
 from basket.models import Basket, Line
 from booking.forms import BookingForm, BookingStepOneForm
-from catalog.models import Category, Product
+from catalog.models import Category, Product, Size
 from order.models import Order
 
 
@@ -99,7 +99,12 @@ class BookingComplectView(View):
             height = request.POST.getlist('height')
             gender = request.POST.getlist('gender')
             lines = request.POST.getlist('line')
-            results = list(zip(products,user_names, weight, height, gender, lines))
+            print(weight)
+            print(gender)
+            sizes = request.POST.getlist('size')
+            print(sizes)
+            results = list(zip(products,user_names, weight, height, gender, lines, sizes))
+
             data = {'status': 'error'}
             for res in results:
                 if res[0]:
@@ -114,6 +119,7 @@ class BookingComplectView(View):
                         line.height = res[3]
                         line.quantity = 1
                         line.price = product.price
+                        line.size_id = res[6]
                         line.save()
                     else:
                         line = Line.objects.filter(pk=res[5]).first()
@@ -121,6 +127,7 @@ class BookingComplectView(View):
                             line.fio = res[1]
                             line.weight = res[2]
                             line.height = res[3]
+                            line.size_id = res[6]
                             line.save()
 
             total_sum = D(0.0)
@@ -182,3 +189,21 @@ class BookingThankYouView(View):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template)
+
+
+class GetSizeDataView(View):
+
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            product_id = request.POST.get('product_id')
+            product = Product.objects.get(pk=product_id)
+            sizes = []
+            if not product.wetsuit == 'default':
+                all_sizes = Size.objects.filter(type=product.wetsuit)
+                for s in all_sizes:
+                    sizes.append({'name': s.name, 'value': s.pk })
+            data = {
+                'status': 'ok',
+                'sizes': sizes
+            }
+            return HttpResponse(json.dumps(data), content_type='application/json')
