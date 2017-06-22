@@ -155,7 +155,7 @@
                             <div class="architect-info">
                                 <h3 style="font-size: 15px;"><a href="{% url 'catalog:product-detail' p.pk %}">{{ p }}</a></h3>
                                     <div class="product-price"
-                                         style="text-align: center;">{{ p.price|floatformat:0|intcomma }} Р
+                                         style="text-align: center;">{% if p.price %}{{ p.price|floatformat:0|intcomma }} Р {% else %}  Договорная {% endif %}
                                     </div>
                                     <div class="action-control add-product" style="text-align: center;"
                                          data-id="{{ p.pk }}" data-price="{{ p.price|floatformat:0 }}">

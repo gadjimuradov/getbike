@@ -95,6 +95,18 @@ class PaymentAvisoView(CheckMd5,View):
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
+    def send_mail_for_admin(complects, order_sum_amount):
+        ctx = dict()
+        ctx['complects'] = complects
+        ctx['order_sum_amount'] = order_sum_amount
+        to = 'orders@givetwo.me'
+        subject, from_email = 'Новый заказ на сайте', 'no-reply@givetwo.me'
+        text_content = render_to_string('mail/admin_order_detail.txt',ctx)
+        html_content = get_template('mail/admin_order_detail.html').render(ctx)
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
     def create_new_user(self,email, phone):
         pass
 
@@ -139,6 +151,7 @@ class PaymentAvisoView(CheckMd5,View):
                 complects = complects[:-1]
 
             self.send_mail_for_user(email, complects, order_sum_amount)
+            self.send_mail_for_admin(complects, order_sum_amount)
 
             payment = Payment()
             payment.order_number= basket.pk
