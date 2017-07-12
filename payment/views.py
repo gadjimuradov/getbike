@@ -95,7 +95,7 @@ class PaymentAvisoView(CheckMd5,View):
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
-    def send_mail_for_admin(complects, order_sum_amount):
+    def send_mail_for_admin(self, complects, order_sum_amount):
         ctx = dict()
         ctx['complects'] = complects
         ctx['order_sum_amount'] = order_sum_amount

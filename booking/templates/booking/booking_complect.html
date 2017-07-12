@@ -61,9 +61,9 @@
 
                                         <div class="col-md-4 size-area">
                                             <label for="">Размер</label>
-                                                <select name="size" class="form-control" id="select-size">
-                                                    <option value="1"></option>
-                                                </select>
+                                            <select name="size" class="form-control">
+                                                <option value="0">Невер</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -76,7 +76,8 @@
                                     <div class="panel-heading active" role="tab">
                                         <h4 class="panel-title">
                                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                                               href="#collapse1"><span class="fa fa-minus-circle"></span>{{ line.product }}</a>
+                                               href="#collapse1"><span
+                                                    class="fa fa-minus-circle"></span>{{ line.product }}</a>
                                         </h4>
                                         <i class="product-remove" data-line="{{ line.pk }}"
                                            style="float: right;margin-top: -20px; cursor: pointer;">Удалить</i>
@@ -86,9 +87,12 @@
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label for="">Имя</label>
-                                                    <input type="hidden" name="line" class="form-control" value="{{ line.pk }}">
-                                                    <input type="hidden" name="product" class="form-control" value="{{ line.product.pk }}">
-                                                    <input type="text" class="form-control" name="userName" value="{{ line.fio }}">
+                                                    <input type="hidden" name="line" class="form-control"
+                                                           value="{{ line.pk }}">
+                                                    <input type="hidden" name="product" class="form-control"
+                                                           value="{{ line.product.pk }}">
+                                                    <input type="text" class="form-control" name="userName"
+                                                           value="{{ line.fio }}">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -103,26 +107,37 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="">Вес</label>
-                                                    <input type="text" class="form-control" name="weight" value="{{ line.weight|floatformat:0 }}">
+                                                    <input type="text" class="form-control" name="weight"
+                                                           value="{{ line.weight|floatformat:0 }}">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="">Рост</label>
-                                                    <input type="text" class="form-control" name="height" value="{{ line.height|floatformat:0 }}">
+                                                    <input type="text" class="form-control" name="height"
+                                                           value="{{ line.height|floatformat:0 }}">
                                                 </div>
                                             </div>
 
                                             {% if not line.product.wetsuit == 'default' %}
-                                            <div class="col-md-4 size-area" style="display: block;">
-                                                <label for="">Размер</label>
+                                                <div class="col-md-4 size-area" style="display: block;">
+                                                    <label for="">Размер</label>
                                                     <select name="size" class="form-control" id="select-size">
                                                         {% for s in line.product.get_size_options %}
-                                                            <option value="{{ s.pk }}" {% if line.product.size_id == s.pk %} selected {% endif %}>{{ s.name }}</option>
+                                                            <option value="{{ s.pk }}"
+                                                                    {% if line.size_id == s.pk %}
+                                                                    selected {% endif %}>{{ s.name }}</option>
                                                         {% endfor %}
                                                     </select>
-                                            </div>
+                                                </div>
+                                            {% else %}
+                                                <div style="visibility: hidden;">
+                                                    <select name="size" class="form-control">
+                                                        <option value="0"></option>
+                                                    </select>
+                                                </div>
                                             {% endif %}
+
                                         </div>
                                     </div>
 
@@ -135,49 +150,73 @@
                     <hr>
                     <div class="row">
                         <div class="architect-filter text-center">
-                <ul class="list-inline">
-                    {% for c in categories %}
-                        <li><a href="#" data-filter=".{{ c.slug }}">{{ c }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div id="all-architect">
-                    <div class="row">
-                    {% for p in products %}
-                        <div class="col-sm-4 architect {{ p.category.slug }}" style="margin-top: 20px;">
-                            <div class="architect-image">
-                                <a href="{{ p.img.url }}" class="image-link">
-                                    {% thumbnail p.img '400x300' crop="center" as img %}
-                                        <img class="img-responsive" src="{{ img.url }}" alt=""/></a>
-                                    {% endthumbnail %}
-                            </div>
-                            <div class="architect-info">
-                                <h3 style="font-size: 15px;"><a href="{% url 'catalog:product-detail' p.pk %}">{{ p }}</a></h3>
-                                    <div class="product-price"
-                                         style="text-align: center;">{% if p.price %}{{ p.price|floatformat:0|intcomma }} Р {% else %}  Договорная {% endif %}
-                                    </div>
-                                    <div class="action-control add-product" style="text-align: center;"
-                                         data-id="{{ p.pk }}" data-price="{{ p.price|floatformat:0 }}">
-                                        <a class="btn btn-success" style="color: white;width: 100px;">
-                                <span style="cursor: pointer;">
-                                    <i class="fa fa-shopping-cart"> </i>   Добавить
-                                </span>
-                                        </a>
-                                    </div>
-
-                            </div>
+                            <ul class="list-inline">
+                                {% for c in categories %}
+                                    <li><a href="#" data-filter=".{{ c.slug }}">{{ c }}</a></li>
+                                {% endfor %}
+                            </ul>
                         </div>
-                    {% endfor %}
-                    </div>
 
-            </div>
+                        <div id="all-architect">
+                            <div class="row">
+                                {% for p in products %}
+                                    <div class="col-sm-4 architect {{ p.category.slug }}" style="margin-top: 20px;">
+                                        <div class="architect-image">
+                                            <a href="{{ p.img.url }}" class="image-link">
+                                                {% thumbnail p.img '400x300' crop="center" as img %}
+                                                    <img class="img-responsive" src="{{ img.url }}" alt=""/></a>
+                                                {% endthumbnail %}
+                                        </div>
+                                        <div class="architect-info">
+                                            <h3 style="font-size: 15px;"><a
+                                                    href="{% url 'catalog:product-detail' p.pk %}">{{ p }}</a></h3>
+                                            <div class="product-price"
+                                                 style="text-align: center;">
+                                                {% if p.price %}{{ p.price|floatformat:0|intcomma }} Р {% else %}
+                                                    Договорная {% endif %}
+                                            </div>
+                                            <div class="action-control add-product" style="text-align: center;"
+                                                 data-id="{{ p.pk }}" data-price="{{ p.price|floatformat:0 }}">
+                                                <a class="btn btn-success" style="color: white; width: 100px;">
+                                                    <span style="cursor: pointer;"><i class="fa fa-shopping-cart"> </i>   Добавить</span>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                        </div>
 
                     </div>
 
                     <div style="text-align: center; margin-top: 20px;">
                         <a id="step2-button" class="btn btn-lg btn-success" href="{% url 'booking:booking-payment' %}">К
                             третьему шагу</a>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Заказ мотопрогулок</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h2>Добавьте ваши комментарии</h2>
+                                    <form>
+                                        <textarea></textarea>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                    <button type="button" class="btn btn-primary">Сохранить</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -186,21 +225,23 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
 
 {% block js_block %}
 
     <script type="text/javascript">
         $(function () {
-            function calculateSum(){
+            function calculateSum() {
                 var complectItems = $('.complect_prod_item');
                 var sum = 0;
-                $.each(complectItems, function(i,v){
+                $.each(complectItems, function (i, v) {
                     var price = parseInt($(this).attr('data-price'));
-                    sum +=price;
+                    sum += price;
                 });
                 return sum;
             }
+
             $(".add-product").on('click', function () {
                 var complectsBoardFirst = $('.complects-board-btn:first');
                 var complectBlock = complectsBoardFirst.clone();
@@ -212,38 +253,40 @@
                 var productInner = $('#product-inner');
                 var productId = $(this).attr('data-id');
 
-                var productItem = '<div class="complect_prod_item" data-price="'+ priceProduct +'" id="complect_prod_'+ productId +'"><span>' + productName + '</span>   <span>' + priceProduct + '</span></div>';
+                var productItem = '<div class="complect_prod_item" data-price="' + priceProduct + '" id="complect_prod_' + productId + '"><span>' + productName + '</span>   <span>' + priceProduct + '</span></div>';
                 $(productItem).appendTo(productInner);
                 complectBlock.find('input[name=product]').val(productId);
-                complectBlock.find('.product-remove').attr('data-product-id',productId);
+                complectBlock.find('.product-remove').attr('data-product-id', productId);
                 var sizeArea = complectBlock.find('.size-area');
                 $.ajax({
-                        url: '/booking/get_size/',
-                        type: 'POST',
-                        beforeSend: function (jqXHR, settings) {
-                            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                            jqXHR.setRequestHeader("x-csrftoken", csrfToken);
-                        },
-                        dataType: 'json',
-                        data: {product_id: productId},
-                    }).done(function (data) {
-                        console.log(data);
-                        var sizeHtml = '';
-                        if(data.sizes) {
-                            $.each(data.sizes, function (i, v) {
-                                sizeHtml += '<option value="' + v.value + '">' + v.name + '</option>';
-                                sizeArea.show();
-                            });
-                        }else{
-                                sizeHtml += '<option value=""></option>';
-                        }
-                        sizeArea.find('select[name="size"]').html(sizeHtml);
+                    url: '/booking/get_size/',
+                    type: 'POST',
+                    beforeSend: function (jqXHR, settings) {
+                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                        jqXHR.setRequestHeader("x-csrftoken", csrfToken);
+                    },
+                    dataType: 'json',
+                    data: {product_id: productId},
+                }).done(function (data) {
+                    console.log(data);
+                    var sizeHtml = '';
+                    if (data.sizes.length > 0) {
+                        $.each(data.sizes, function (i, v) {
+                            sizeHtml += '<option value="' + v.value + '">' + v.name + '</option>';
+                            sizeArea.show();
+                        });
+
+                    } else {
+                        console.log('Not option');
+                        sizeHtml += '<option value="0">Невер</option>';
+                    }
+                    sizeArea.find('select[name="size"]').html(sizeHtml);
 
 
-                    }).fail(function (e, data) {
-                        console.log(e);
-                        console.log(data);
-                    });
+                }).fail(function (e, data) {
+                    console.log(e);
+                    console.log(data);
+                });
                 var sum = calculateSum();
                 $('#order-total').html(sum + ' Р');
 
@@ -254,7 +297,7 @@
                 var lineId = $(this).attr('data-line');
                 console.log(typeof lineId);
                 console.log(lineId);
-                if (lineId){
+                if (lineId) {
                     lineId = parseInt(lineId);
                     $.ajax({
                         url: '/booking/line/remove/',
@@ -300,6 +343,12 @@
                     console.log(e);
                     console.log(data);
                 });
+            });
+
+
+            $('#test-button').on('click', function(){
+                $("#myModal").modal('toggle');
+
             });
         });
     </script>

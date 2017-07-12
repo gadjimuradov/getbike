@@ -3430,3 +3430,6 @@ img.mfp-img {
 	display: none;
 }
 
+.error {
+    color: red;
+}

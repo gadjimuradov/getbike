@@ -119,7 +119,9 @@ class BookingComplectView(View):
                         line.height = res[3]
                         line.quantity = 1
                         line.price = product.price
-                        line.size_id = res[6]
+                        size = int(res[6])
+                        if size:
+                            line.size_id = size
                         line.save()
                     else:
                         line = Line.objects.filter(pk=res[5]).first()
@@ -127,7 +129,10 @@ class BookingComplectView(View):
                             line.fio = res[1]
                             line.weight = res[2]
                             line.height = res[3]
-                            line.size_id = res[6]
+                            size = int(res[6])
+                            if size:
+                                print(line.pk, size)
+                                line.size_id = size
                             line.save()
 
             total_sum = D(0.0)

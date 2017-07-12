@@ -4,12 +4,12 @@
 {% load humanize %}
 {% block content %}
     <div id="page-title" class="image-bg">
-    <div class="container text-center">
-        <div class="title-content">
-            <h1>Бронирование</h1>
+        <div class="container text-center">
+            <div class="title-content">
+                <h1>Бронирование</h1>
+            </div>
         </div>
     </div>
-</div>
     <div id="about-us" class="padding">
         <div class="container">
             <div class="row">
@@ -17,41 +17,47 @@
                 <div class="col-md-9">
                     <h2>Оплата Шаг 3</h2>
                     <h3>Все готово! Проверьте ваш заказ</h3>
+                    <div id="errordiv">
+
+                    </div>
                     <form id="yandex-send" action="{{ YANDEX_MONEY.url }}" method="post">
 
-                    <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <input type="hidden" value="{{ basket.total_sum|floatformat:0}}" name="sum" id="totalOrderSum">
-                            <input type='hidden' name='shopId' value='{{ YANDEX_MONEY.shop_id}}'>
-                            <input type='hidden' name='scid' value='{{ YANDEX_MONEY.scid}}'>
-                            <input name="customerNumber" value="{{ basket.phone }}" type="hidden">
-                            <input id="basketNumberId" name="orderNumber" value="{{ basket.pk }}" type="hidden">
-                            <label>Email</label>
-                            <input type="text" class="form-control" name="email">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="hidden" value="{{ basket.total_sum|floatformat:0 }}" name="sum"
+                                           id="totalOrderSum">
+                                    <input type='hidden' name='shopId' value='{{ YANDEX_MONEY.shop_id }}'>
+                                    <input type='hidden' name='scid' value='{{ YANDEX_MONEY.scid }}'>
+                                    <input name="customerNumber" value="{{ basket.phone }}" type="hidden">
+                                    <input id="basketNumberId" name="orderNumber" value="{{ basket.pk }}" type="hidden">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" name="email">
+                                </div>
+
+                                <div class="form-group oferta-div" style="margin-bottom: 5px;">
+                                    <label><input type="checkbox" name="oferta"> Я соглашаюсь с условиями </label>
+                                    <a class="popup-oferta-modal" href="#oferta-modal">оферты</a>
+                                </div>
+
+                                <div id="modal-background"></div>
+                                <div id="modal-content">
+                                    <i id="modal-close" class="fa fa-close"
+                                       style="font-size:20px;float: right; right: 10px;"></i>
+                                    {{ oferta|safe }}
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-6" style="padding-top: 25px;">
+                                <label></label>
+                                <button type="submit" class="btn btn-lg btn-success">
+                                    <i class="fa fa-credit-card"></i>
+                                    Оплатить {{ basket.total_sum|floatformat:0|intcomma }} рублей
+                                </button>
+                            </div>
                         </div>
-
-                        <div class="form-group">
-                            <label><input type="checkbox" name="oferta">  Я соглашаюсь с условиями </label>
-                            <a class="popup-oferta-modal" href="#oferta-modal">оферты</a>
-                        </div>
-
-                        <div id="modal-background"></div>
-                        <div id="modal-content">
-                               <i id="modal-close" class="fa fa-close" style="font-size:20px;float: right; right: 10px;"></i>
-                                {{ oferta|safe }}
-                        </div>
-
-
-                    </div>
-
-                    <div class="col-md-6" style="padding-top: 25px;">
-                        <label></label>
-                           <button type="submit"class="btn btn-lg btn-success">
-                           <i class="fa fa-credit-card"></i>    Оплатить {{ basket.total_sum|floatformat:0|intcomma }} рублей
-                           </button>
-                    </div>
-                    </div>
                     </form>
                 </div>
                 <div class="col-md-3">
@@ -65,9 +71,18 @@
 {% block js_block %}
     <script type="text/javascript">
         $(function () {
-            $("#payment-form").validate({
+            $("#yandex-send").validate({
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") == "oferta") {
+                        error.insertAfter(".oferta-div");
+                    }else{
+                        error.insertAfter(element);
+                    }
+                },
                 rules: {
-                    email: {required: true}
+                    email: {required: true},
+                    oferta: {required: true},
+
                 },
                 submitHandler: function (form) {
                     form.submit();
@@ -75,7 +90,7 @@
             });
 
             $(".popup-oferta-modal, #modal-background, #modal-close").click(function () {
-		            $("#modal-content,#modal-background").toggleClass("active");
+                $("#modal-content,#modal-background").toggleClass("active");
             });
         });
     </script>
