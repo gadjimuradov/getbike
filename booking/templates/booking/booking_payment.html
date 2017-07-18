@@ -15,6 +15,7 @@
             <div class="row">
                 {% include 'booking/steps_area.html' %}
                 <div class="col-md-9">
+                    {% if payment_type == 'default' %}
                     <h2>Оплата Шаг 3</h2>
                     <h3>Все готово! Проверьте ваш заказ</h3>
                     <div id="errordiv">
@@ -59,6 +60,40 @@
                             </div>
                         </div>
                     </form>
+                    {% else %}
+                        <h3>Оплата для мотопрогулок</h3>
+
+                    <form method="post">{% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" name="email">
+                                </div>
+                                <div class="form-group">
+                                    <label>Время</label>
+                                    <input type="text" class="form-control" name="time">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Откуда забрать</label>
+                                    <input type="text" class="form-control" name="from_place">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Комментарий</label>
+                                    <textarea name="comment" class="form-control"></textarea>
+                                </div>
+
+                                <div class="col-md-6" style="padding-top: 25px;">
+                                    <button type="submit" class="btn btn-lg btn-success">ОК</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% endif %}
                 </div>
                 <div class="col-md-3">
                     {% cart_total %}

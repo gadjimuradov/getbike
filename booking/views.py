@@ -160,7 +160,18 @@ class LineRemoveView(View):
 class BookingPaymentView(View):
     template_name = 'booking/booking_payment.html'
 
+    def send_mail_for_admin(self):
+        ctx = dict()
+        to = 'orders@givetwo.me'
+        subject, from_email = 'Новый заказ на сайте', 'no-reply@givetwo.me'
+        text_content = render_to_string('mail/admin_moto_order_detail.txt',ctx)
+        html_content = get_template('mail/admin_moto_order_detail.html').render(ctx)
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
     def get(self, request, *args, **kwargs):
+        payment_type = 'default'
         ctx = dict()
         ctx['YANDEX_MONEY'] = settings.YANDEX_MONEY
         print(settings.YANDEX_MONEY)
@@ -170,22 +181,24 @@ class BookingPaymentView(View):
         ctx['oferta'] = oferta.content if oferta else ''
         if basket_id:
             basket = Basket.objects.filter(id=basket_id).first()
+            for l in basket.lines.all():
+                if l.product.is_motoprogulki():
+                    payment_type = 'moto'
+                    break
             ctx['basket'] = basket
+        ctx['payment_type'] = payment_type
         return render(request, self.template_name, ctx)
 
     def post(self, request, *args, **kwargs):
         print(request.POST)
         ctx = dict()
         email = request.POST.get('email')
-        basket_id = request.session.get('basket')
-        if basket_id:
-            basket = Basket.objects.filter(id=basket_id).first()
-            ctx['basket'] = basket
-            if email:
-                order = Order()
-                order.take_date = basket.date_take
-
-
+        time = request.POST.get('time')
+        from_place = request.POST.get('from_place')
+        comment = request.POST.get('email')
+        if email:
+            self.send_mail_for_admin()
+            return redirect('/booking/thank_moto/')
         return render(request, self.template_name, ctx)
 
 
@@ -194,6 +207,17 @@ class BookingThankYouView(View):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template)
+
+
+class BookingMotoThankView(View):
+    def get(self, request, *args, **kwargs):
+        ctx = dict()
+        basket_id = request.session.get('basket')
+        if basket_id:
+            basket = Basket.objects.filter(id=basket_id).first()
+            ctx['basket'] = basket
+
+        return render(request, 'booking/booking_moto_thank.html', ctx)
 
 
 class GetSizeDataView(View):

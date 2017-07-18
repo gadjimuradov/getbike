@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load cart_tags %}
+{% load humanize %}
+{% block content %}
+    <div id="page-title" class="image-bg">
+        <div class="container text-center">
+            <div class="title-content">
+                <h1>Бронирование</h1>
+            </div>
+        </div>
+    </div>
+    <div id="about-us" class="padding">
+        <div class="container">
+            <div class="row">
+                {% include 'booking/steps_area.html' %}
+                <div class="col-md-9">
+                    <h3>Спасибо большое.Ваша заявка принята</h3>
+                    <p >Мы с вами свяжемся в ближайшее время и предложим вам поездку.</p>
+                </div>
+                <div class="col-md-3">
+                    {% cart_total %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_block %}
+
+{% endblock %}

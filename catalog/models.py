@@ -67,6 +67,10 @@ class Product(models.Model):
         sizes = Size.objects.filter(type=self.wetsuit)
         return sizes
 
+    def is_motoprogulki(self):
+        return self.category.slug == 'motoprogulki'
+
+
 
 class ProductImage(models.Model):
     img = models.ImageField(upload_to='products/')
