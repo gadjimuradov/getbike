@@ -1,6 +1,7 @@
 {% extends 'base_main.html' %}
 {% load staticfiles %}
 {% load thumbnail %}
+{% load humanize %}
 {% block content %}
     <!--
     <div id="home-section">
@@ -168,10 +169,16 @@
                             <div class="architect-info">
                                 <h3><a href="{% url 'catalog:product-detail' p.pk %}">{{ p }}</a></h3>
                                 <h4>{{ p.category }}</h4>
-                                <div class="socials">
-
-                                </div>
+                <div class="product-price"  style="text-align: center; position: relative;
+  display: inline-block;margin-bottom: 14px;color: #f682c1;
+    font-size: 26px;font-weight: 700;
+    line-height: .9;
+}">
+                    {% if p.price %}{{ p.price|floatformat:0|intcomma }} <span style="color: #c5c5c6;font-weight: 400;">Р</span> {% else %}
+                                                    Договорная {% endif %}
                             </div>
+                            </div>
+
                         </div>
                     {% endfor %}
                     </div>
