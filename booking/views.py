@@ -190,7 +190,6 @@ class BookingPaymentView(View):
         return render(request, self.template_name, ctx)
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
         ctx = dict()
         email = request.POST.get('email')
         time = request.POST.get('time')
