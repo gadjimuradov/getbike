@@ -160,8 +160,13 @@ class LineRemoveView(View):
 class BookingPaymentView(View):
     template_name = 'booking/booking_payment.html'
 
-    def send_mail_for_admin(self, comment):
+    def send_mail_for_admin(self,email,comment, time, from_place, complects):
         ctx = dict()
+        ctx['comment'] = comment
+        ctx['time'] = time
+        ctx['from_place'] = from_place
+        ctx['email'] = email
+        ctx['complects'] = complects
         to = 'orders@givetwo.me'
         subject, from_email = 'Новый заказ на сайте', 'no-reply@givetwo.me'
         text_content = render_to_string('mail/admin_moto_order_detail.txt',ctx)
@@ -205,8 +210,13 @@ class BookingPaymentView(View):
         time = request.POST.get('time')
         from_place = request.POST.get('from_place')
         comment = request.POST.get('comment')
+        basket_id = request.session.get('basket')
+        basket = Basket.objects.filter(id=basket_id).first()
+        complects = ''
+        for line in basket.lines.all():
+            complects += str(line.product.name) + ','
         if email and comment and from_place and time:
-            self.send_mail_for_admin(comment)
+            self.send_mail_for_admin(email, comment, time, from_place, complects)
             return redirect('/booking/thank_moto/')
         else:
             ctx['errors'] = 'Пожалуйста заполните все поля'
