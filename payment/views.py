@@ -145,7 +145,10 @@ class PaymentAvisoView(CheckMd5,View):
 
             complects = ''
             for line in basket.lines.all():
-                complects += str(line.product.name) + ','
+                if line.size:
+                    complects += str(line.product.name) + '[Размер:'+ str(line.size) +'],'
+                else:
+                    complects += str(line.product.name) + ','
 
             if complects:
                 complects = complects[:-1]

@@ -160,10 +160,20 @@ class LineRemoveView(View):
 class BookingPaymentView(View):
     template_name = 'booking/booking_payment.html'
 
-    def send_mail_for_admin(self):
+    def send_mail_for_admin(self, comment):
         ctx = dict()
         to = 'orders@givetwo.me'
         subject, from_email = 'Новый заказ на сайте', 'no-reply@givetwo.me'
+        text_content = render_to_string('mail/admin_moto_order_detail.txt',ctx)
+        html_content = get_template('mail/admin_moto_order_detail.html').render(ctx)
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
+    def send_mail_to_user(self, email):
+        ctx = dict()
+        to = email
+        subject, from_email = 'Ваш заказа на сайте givetwo.me', 'no-reply@givetwo.me'
         text_content = render_to_string('mail/admin_moto_order_detail.txt',ctx)
         html_content = get_template('mail/admin_moto_order_detail.html').render(ctx)
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
@@ -194,10 +204,12 @@ class BookingPaymentView(View):
         email = request.POST.get('email')
         time = request.POST.get('time')
         from_place = request.POST.get('from_place')
-        comment = request.POST.get('email')
-        if email:
-            self.send_mail_for_admin()
+        comment = request.POST.get('comment')
+        if email and comment and from_place and time:
+            self.send_mail_for_admin(comment)
             return redirect('/booking/thank_moto/')
+        else:
+            ctx['errors'] = 'Пожалуйста заполните все поля'
         return render(request, self.template_name, ctx)
 
 

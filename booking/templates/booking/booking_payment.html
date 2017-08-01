@@ -63,7 +63,7 @@
                     {% else %}
                         <h3>Оплата для мотопрогулок</h3>
 
-                    <form method="post">{% csrf_token %}
+                    <form method="post" id="moto-form">{% csrf_token %}
 
                         <div class="row">
                             <div class="col-md-6">
@@ -123,6 +123,21 @@
                     form.submit();
                 }
             });
+
+            $('#moto-form').validate({
+                errorPlacement: function(error, element) {
+                    error.insertAfter(element);
+                },
+                rules: {
+                    email: {required: true},
+                    time: {required: true},
+                    from_place: {required: true},
+                    comment: {required: true},
+                },
+                submitHandler: function(form){
+                    form.submit();
+                }
+            })
 
             $(".popup-oferta-modal, #modal-background, #modal-close").click(function () {
                 $("#modal-content,#modal-background").toggleClass("active");
